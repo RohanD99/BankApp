@@ -11,11 +11,6 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            BankSetup bankSetup = new BankSetup();
-            AdminVerification verify = new AdminVerification();
-            LoginAsAccountHolder loginAsAccountHolder = new LoginAsAccountHolder();
-            BankManager bankManager = new BankManager();
-
             while (true)
             {
                 Console.WriteLine("_______///Welcome\\\\\\________");
@@ -32,7 +27,6 @@ namespace BankApp
                 {
                     case 1:
                         AdminVerification.Verification();
-                        BankSetup.SetupNewBank();
                         break;
                     case 2:
                         LoginAsAccountHolder.AccountHolder();
@@ -41,12 +35,10 @@ namespace BankApp
                         LoginAsBankStaff.BankStaff();
                         break;
                     case 4:
-                        BankManager.DisplayBanks();
-                        break;
-                    case 5:
-                        Environment.Exit(0);
                         Console.WriteLine("Thankyou for Visiting...");
-                        break;
+                        Environment.Exit(0);                       
+                        return;
+                        //break;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
                         break;

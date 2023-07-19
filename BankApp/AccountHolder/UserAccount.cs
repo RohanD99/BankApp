@@ -1,182 +1,151 @@
-﻿using System;
+﻿using BankApp.BankStaff;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankApp.AccountHolder
 {
     internal class UserAccount
     {
-        public class Account
+        private static double accountBalance = 0;
+        private static List<string> transactionHistory = new List<string>();
+
+        private static bool isAccountHolderLoggedIn = false;
+        private static string loggedInUsername = string.Empty;
+        private static string linkedAccountNumber = string.Empty;
+
+        public static void SetLinkedAccountNumber(string accountNumber)
         {
-            public string HolderName { get; set; }
-            public string BankName { get; set; }
-            public string BankID { get; set; }
-            public string AccountID { get; set; }
-            public decimal Balance { get; set; }
-            public List<Transaction> TransactionHistory { get; set; }
-
-            public Account(string holderName, string bankName)
-            {
-                HolderName = holderName;
-                BankName = bankName;
-                BankID = bankName.Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
-                AccountID = holderName.Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
-                Balance = 0;
-                TransactionHistory = new List<Transaction>();
-            }
-
-            public void Deposit()
-            {
-                Console.WriteLine("Enter the currency:");
-                string currency = Console.ReadLine();
-
-                Console.WriteLine("Enter the amount:");
-                decimal amount = decimal.Parse(Console.ReadLine());
-
-                decimal convertedAmount = ConvertCurrencyToINR(currency, amount);
-
-                // Deposit amount
-                Balance += convertedAmount;
-
-                string transactionID = "TXN" + BankID + AccountID + DateTime.Now.ToString("yyyyMMddHHmmss");
-                Transaction transaction = new Transaction(transactionID, "Deposit", currency, amount, convertedAmount);
-                TransactionHistory.Add(transaction);
-
-                Console.WriteLine("Deposit successful. Current balance: " + Balance + " INR");
-            }
-
-            public void Withdraw()
-            {
-                Console.WriteLine("Enter the amount:");
-                decimal amount = decimal.Parse(Console.ReadLine());
-
-                if (Balance >= amount)
-                {
-                    // Withdraw amount
-                    Balance -= amount;
-
-                    // Add transaction to history
-                    string transactionID = "TXN" + BankID + AccountID + DateTime.Now.ToString("yyyyMMddHHmmss");
-                    Transaction transaction = new Transaction(transactionID, "Withdrawal", "INR", amount, amount);
-                    TransactionHistory.Add(transaction);
-
-                    Console.WriteLine("Withdrawal successful. Current balance: " + Balance + " INR");
-                }
-                else
-                {
-                    Console.WriteLine("Insufficient balance. Withdrawal failed.");
-                }
-            }
-
-            public void Transfer(Account recipient, decimal amount)
-            {
-                if (Balance >= amount)
-                {
-                    // Transfer amount from sender to recipient
-                    Balance -= amount;
-                    recipient.Balance += amount;
-
-                    // Add transaction to sender's history
-                    string transactionID = "TXN" + BankID + AccountID + DateTime.Now.ToString("yyyyMMddHHmmss");
-                    Transaction transaction = new Transaction(transactionID, "Transfer", "INR", amount, amount);
-                    TransactionHistory.Add(transaction);
-
-                    // Add transaction to recipient's history
-                    string recipientTransactionID = "TXN" + recipient.BankID + recipient.AccountID + DateTime.Now.ToString("yyyyMMddHHmmss");
-                    Transaction recipientTransaction = new Transaction(recipientTransactionID, "Transfer", "INR", amount, amount);
-                    recipient.TransactionHistory.Add(recipientTransaction);
-
-                    Console.WriteLine("Transfer successful. Current balance: " + Balance + " INR");
-                }
-                else
-                {
-                    Console.WriteLine("Insufficient balance. Transfer failed.");
-                }
-            }
-
-            public void ViewYourTransactionHistory()
-            {
-                Console.WriteLine("Transaction History:");
-                foreach (Transaction transaction in TransactionHistory)
-                {
-                    Console.WriteLine(transaction.ToString());
-                }
-            }
-
-            private decimal ConvertCurrencyToINR(string currency, decimal amount)
-            {
-                // Assuming 1 unit of any currency is equal to 100 INR
-                if (currency == "INR")
-                {
-                    return amount;
-                }
-                else
-                {
-                    return amount * 100;
-                }
-            }
+            linkedAccountNumber = accountNumber;
         }
 
-        public class Transaction
+        public static bool IsAccountHolderLoggedIn
         {
-            public string TransactionID { get; set; }
-            public string Type { get; set; }
-            public string Currency { get; set; }
-            public decimal Amount { get; set; }
-            public decimal ConvertedAmount { get; set; }
-
-            public Transaction(string transactionID, string type, string currency, decimal amount, decimal convertedAmount)
-            {
-                TransactionID = transactionID;
-                Type = type;
-                Currency = currency;
-                Amount = amount;
-                ConvertedAmount = convertedAmount;
-            }
-
-            public override string ToString()
-            {
-                return "Transaction ID: " + TransactionID +
-                       ", Type: " + Type +
-                       ", Currency: " + Currency +
-                       ", Amount: " + Amount +
-                       ", Converted Amount: " + ConvertedAmount;
-            }
+            get { return isAccountHolderLoggedIn; }
+            set { isAccountHolderLoggedIn = value; }
         }
 
+        public static decimal GetAccountBalanceByAccountNumber(string accountNumber)
+        {
+            AccountDetails.Account account = AccountDetails.GetAccountByNumber(accountNumber);
+            if (account != null)
+            {
+                return account.AccountBalance;
+            }
+            return 0;
+        }
 
         public static void PerformAccountHolderAction(int action)
         {
-            Account account = new Account("Holder Name", "Bank Name");
             switch (action)
             {
                 case 1:
-                    Console.WriteLine("Deposit Amount");
-                   // Account account = new Account("Holder Name", "Bank Name");
-                    account.Deposit();
+                    DepositAmount();
                     break;
                 case 2:
-                    Console.WriteLine("Withdraw Amount");   
-                    account.Withdraw();
+                    WithdrawAmount();
                     break;
                 case 3:
-                    Console.WriteLine("Transfer funds ");
-                    Account account1 = new Account("Holder Name", "Bank Name");
-                    Account account2 = new Account("Holder Name", "Bank Name");
-                    account1.Transfer(account2, 100);
+                    TransferFunds();
                     break;
                 case 4:
-                    Console.WriteLine("Viewing transaction history!");
-                    Account accountss = new Account("Holder Name", "Bank Name");
-                    accountss.ViewYourTransactionHistory();
+                    ViewTransactionHistory();
+                    break;
+                case 5:
+                    Console.WriteLine("Going back to start...");
+                    isAccountHolderLoggedIn = false;
                     break;
                 default:
                     Console.WriteLine("Invalid action. Please try again.");
                     break;
             }
         }
-    }
+
+        private static void DepositAmount()
+        {
+            Console.WriteLine("Enter the amount to deposit:");
+            double amount = Convert.ToDouble(Console.ReadLine());
+
+            if (amount <= 0)
+            {
+                Console.WriteLine("Invalid amount. Please enter a positive value.");
+            }
+            else
+            {
+                accountBalance += amount;
+                Console.WriteLine("Amount deposited successfully.");
+                transactionHistory.Add("Deposit: +" + amount);
+                UpdateLinkedAccountBalance(amount);
+            }
         }
-    
+
+        private static void WithdrawAmount()
+        {
+            Console.WriteLine("Enter the amount to withdraw:");
+            double amount = Convert.ToDouble(Console.ReadLine());
+
+            if (amount <= 0)
+            {
+                Console.WriteLine("Invalid amount. Please enter a positive value.");
+            }
+            else if (amount > accountBalance)
+            {
+                Console.WriteLine("Insufficient funds. Cannot withdraw the requested amount.");
+            }
+            else
+            {
+                accountBalance -= amount;
+                Console.WriteLine("Amount withdrawn successfully.");
+                transactionHistory.Add("Withdrawal: -" + amount);
+                UpdateLinkedAccountBalance(-amount);
+            }
+        }
+
+
+        private static void TransferFunds()
+        {
+            Console.WriteLine("Enter the amount to transfer:");
+            double amount = Convert.ToDouble(Console.ReadLine());
+
+            if (amount <= 0)
+            {
+                Console.WriteLine("Invalid amount. Please enter a positive value.");
+            }
+            else if (amount > accountBalance)
+            {
+                Console.WriteLine("Insufficient funds. Cannot transfer the requested amount.");
+            }
+            else
+            {
+                Console.WriteLine("Enter the recipient's account number:");
+                string recipientAccountNumber = Console.ReadLine();
+
+                Console.WriteLine("Funds transferred successfully.");
+                accountBalance -= amount;
+                transactionHistory.Add("Transfer: -" + amount + " to Account No. " + recipientAccountNumber);
+                UpdateLinkedAccountBalance(-amount);
+            }
+        }
+
+        private static void UpdateLinkedAccountBalance(double amount)
+        {
+            if (!string.IsNullOrEmpty(linkedAccountNumber))
+            {
+                var account = AccountDetails.GetAccountByNumber(linkedAccountNumber);
+                if (account != null)
+                {
+                    account.AccountBalance += (decimal)amount;
+                    account.TransactionHistory.Add("Linked Account Transaction: " + (amount >= 0 ? "+" : "-") + Math.Abs(amount));
+                }
+            }
+        }
+
+        private static void ViewTransactionHistory()
+        {
+            Console.WriteLine("Transaction History:");
+            foreach (string transaction in transactionHistory)
+            {
+                Console.WriteLine(transaction);
+            }
+        }
+    }
+}

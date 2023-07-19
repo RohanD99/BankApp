@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BankApp.BankStaff;
+using System;
 using static BankApp.SetupNewBank.NewBank;
 
 namespace BankApp.SetupNewBank
@@ -10,6 +7,7 @@ namespace BankApp.SetupNewBank
     internal class AdminLogin
     {
         private static bool isAdminLoggedIn = false;
+        private static NewBank newBank;
 
         public static void RunAdminLogin()
         {
@@ -42,25 +40,45 @@ namespace BankApp.SetupNewBank
         {
             public static void Verification()
             {
-                Console.WriteLine("Enter admin username:");
-                string adminUsername = Console.ReadLine();
+                int attempts = 3;
 
-                Console.WriteLine("Enter admin password:");
-                string adminPassword = Console.ReadLine();
-
-                // Check if admin credentials are valid
-                if (adminUsername == "admin" && adminPassword == "password")
+                while (attempts > 0)
                 {
-                    isAdminLoggedIn = true;
-                    Console.WriteLine("Admin login successful.");
+                    Console.WriteLine("Enter admin username:");
+                    string adminUsername = Console.ReadLine();
 
+                    Console.WriteLine("Enter admin password:");
+                    string adminPassword = Console.ReadLine();
+
+                    // Check if admin credentials are valid
+                    if (adminUsername == "admin" && adminPassword == "password")
+                    {
+                        isAdminLoggedIn = true;
+                        Console.WriteLine("Admin login successful.");
+                        break; 
+                    }
+                    else
+                    {
+                        attempts--;
+                        Console.WriteLine($"Invalid admin credentials. {attempts} attempts left.");
+                    }
+                }
+
+                if (attempts == 0)
+                {
+                    Console.WriteLine("Login failed. You've reached the maximum number of attempts.");
+                }
+                else
+                {
                     while (true)
                     {
                         Console.WriteLine("\nBank Management Menu");
                         Console.WriteLine("---------------------");
                         Console.WriteLine("1. Display all banks");
                         Console.WriteLine("2. Add new bank");
-                        Console.WriteLine("3. Exit");
+                        Console.WriteLine("3. Hire a staff");
+                        Console.WriteLine("4. Show All staff members");
+                        Console.WriteLine("5. Exit");
                         Console.Write("Enter your choice: ");
 
                         int choice = Convert.ToInt32(Console.ReadLine());
@@ -71,9 +89,16 @@ namespace BankApp.SetupNewBank
                                 BankManager.DisplayBanks();
                                 break;
                             case 2:
-                                BankSetup.SetupNewBank();
+                                newBank = new NewBank();
+                                BankSetup.SetupNewBank(newBank);
                                 break;
                             case 3:
+                                HireStaff();
+                                break;
+                            case 4:
+                                BankManager.DisplayStaffMembers();
+                                break;
+                            case 5:
                                 Console.WriteLine("Exiting...");
                                 return;
                             default:
@@ -82,11 +107,22 @@ namespace BankApp.SetupNewBank
                         }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Invalid admin credentials. Login failed.");
-                }
+            }
+
+            private static void HireStaff()
+            {
+                Console.WriteLine("Enter staff username:");
+                string username = Console.ReadLine();
+
+                Console.WriteLine("Enter staff password:");
+                string password = Console.ReadLine();
+
+                AccountDetails.AddStaffAccount(username, password);
+
+                Console.WriteLine("Staff hired successfully.");
+
             }
         }
     }
-}
+    }
+

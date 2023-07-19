@@ -12,6 +12,7 @@ namespace BankApp.BankStaff
         private static decimal impsChargeSameBank = 0.05m;
         private static decimal rtgsChargeOtherBank = 0.02m;
         private static decimal impsChargeOtherBank = 0.06m;
+
         public static void SetServiceChargeSameBank()
         {
             Console.WriteLine("Enter the service charge for RTGS (in percentage) for same bank:");
@@ -33,6 +34,25 @@ namespace BankApp.BankStaff
 
             Console.WriteLine("Service charges updated successfully for other bank.");
         }
+
+        public static decimal GetRtgsChargeSameBank()
+        {
+            return rtgsChargeSameBank;
+        }
+
+        public static decimal GetImpsChargeSameBank()
+        {
+            return impsChargeSameBank;
+        }
+
+        public static decimal GetRtgsChargeOtherBank()
+        {
+            return rtgsChargeOtherBank;
+        }
+
+        public static decimal GetImpsChargeOtherBank()
+        {
+            return impsChargeOtherBank;
+        }
     }
 }
-
