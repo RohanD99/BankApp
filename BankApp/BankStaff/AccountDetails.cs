@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BankApp.Models;
 
 namespace BankApp.BankStaff
 {
@@ -12,23 +13,22 @@ namespace BankApp.BankStaff
             Savings,
             Salary
         }
-        internal class Account
-        {
-            public string Username { get; set; }
-            public string Password { get; set; }
-            public string AccountNumber { get; set; }
-
-            public AccountType Type { get; set; }
-            public NewBank Bank { get; set; }
-            public decimal AccountBalance { get; set; }
-            public List<string> TransactionHistory { get; set; }
-            public string LinkedAccountNumber { get; set; }
-        }
+      
 
         public static List<Account> accounts = new List<Account>();
 
+        public static void AddAccount(Account account)
+        {
+            accounts.Add(account);
+        }
+
         public static void CreateNewAccount()
         {
+            if (BankManager.banks.Count == 0)
+            {
+                Console.WriteLine("No banks have been set up yet. Please set up a bank before creating an account.");
+                return;
+            }
             Console.WriteLine("Enter account holder's username:");
             string username = Console.ReadLine();
 
@@ -71,6 +71,10 @@ namespace BankApp.BankStaff
 
             Console.WriteLine("Account created successfully.");
             Console.WriteLine("Account Number: " + accountNumber);
+        }
+        public static Account GetAccountByUsername(string username)
+        {
+            return accounts.FirstOrDefault(a => a.Username == username);
         }
 
         public static void UpdateAccount()

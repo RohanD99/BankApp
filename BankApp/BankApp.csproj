@@ -49,18 +49,17 @@
     <Compile Include="BankStaff\CurrencyType.cs" />
     <Compile Include="BankStaff\ServiceCharge.cs" />
     <Compile Include="BankStaff\StaffLogin.cs" />
+    <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetupNewBank\AdminLogin.cs" />
     <Compile Include="SetupNewBank\BankManager.cs" />
     <Compile Include="SetupNewBank\NewBank.cs" />
-    <Compile Include="SetupNewBank\StaffMember.cs" />
+    <Compile Include="Models\StaffMember.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

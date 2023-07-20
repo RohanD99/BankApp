@@ -1,5 +1,6 @@
 ﻿using BankApp.BankStaff;
 using System;
+using System.Text.RegularExpressions;
 using static BankApp.SetupNewBank.NewBank;
 
 namespace BankApp.SetupNewBank
@@ -114,12 +115,23 @@ namespace BankApp.SetupNewBank
                 Console.WriteLine("Enter staff username:");
                 string username = Console.ReadLine();
 
+                if (!IsValidInput(username))
+                {
+                    Console.WriteLine("Invalid username. Please enter only alphabets.");
+                    return;
+                }
+
                 Console.WriteLine("Enter staff password:");
                 string password = Console.ReadLine();
 
                 AccountDetails.AddStaffAccount(username, password);
 
                 Console.WriteLine("Staff hired successfully.");
+            }
+
+            private static bool IsValidInput(string input)
+            {
+                return Regex.IsMatch(input, "^[a-zA-Z]+$");
             }
         }
     }

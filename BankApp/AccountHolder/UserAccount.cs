@@ -1,6 +1,7 @@
-﻿using BankApp.BankStaff;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BankApp.BankStaff;
+using BankApp.Models;
 
 namespace BankApp.AccountHolder
 {
@@ -8,61 +9,13 @@ namespace BankApp.AccountHolder
     {
         private static double accountBalance = 0;
         private static List<string> transactionHistory = new List<string>();
-
         private static bool isAccountHolderLoggedIn = false;
         private static string loggedInUsername = string.Empty;
-        private static string linkedAccountNumber = string.Empty;
-
-        public static void SetLinkedAccountNumber(string accountNumber)
-        {
-            linkedAccountNumber = accountNumber;
-        }
 
         public static bool IsAccountHolderLoggedIn
         {
             get { return isAccountHolderLoggedIn; }
             set { isAccountHolderLoggedIn = value; }
-        }
-
-        private static void CheckTotalAccountBalance()
-        {
-            Console.WriteLine("Enter the account number to check the total account balance:");
-            string accountNumber = Console.ReadLine();
-
-            decimal totalBalance = CalculateTotalAccountBalance(accountNumber);
-            if (totalBalance >= 0)
-            {
-                Console.WriteLine("Total Account Balance for Account Number " + accountNumber + ": " + totalBalance);
-            }
-            else
-            {
-                Console.WriteLine("Account not found.");
-            }
-        }
-
-        private static decimal CalculateTotalAccountBalance(string accountNumber)
-        {
-            decimal totalBalance = 0;
-            foreach (AccountDetails.Account account in AccountDetails.accounts)
-            {
-                if (account.AccountNumber == accountNumber)
-                {
-                    totalBalance = account.AccountBalance;
-
-                    // Check for linked account balance
-                    if (!string.IsNullOrEmpty(account.LinkedAccountNumber))
-                    {
-                        var linkedAccount = AccountDetails.GetAccountByNumber(account.LinkedAccountNumber);
-                        if (linkedAccount != null)
-                        {
-                            totalBalance += linkedAccount.AccountBalance;
-                        }
-                    }
-
-                    return totalBalance;
-                }
-            }
-            return -1; // Indicates that the account was not found
         }
 
         public static void PerformAccountHolderAction(int action)
@@ -79,7 +32,7 @@ namespace BankApp.AccountHolder
                     TransferFunds();
                     break;
                 case 4:
-                    
+                    CheckBalance();
                     break;
                 case 5:
                     ViewTransactionHistory();
@@ -129,7 +82,7 @@ namespace BankApp.AccountHolder
                 accountBalance -= amount;
                 Console.WriteLine("Amount withdrawn successfully.");
                 transactionHistory.Add("Withdrawal: -" + amount);
-              
+
             }
         }
 
@@ -154,11 +107,11 @@ namespace BankApp.AccountHolder
                 Console.WriteLine("Funds transferred successfully.");
                 accountBalance -= amount;
                 transactionHistory.Add("Transfer: -" + amount + " to Account No. " + recipientAccountNumber);
-                
+
             }
         }
 
-      
+
 
         private static void ViewTransactionHistory()
         {
@@ -167,6 +120,26 @@ namespace BankApp.AccountHolder
             {
                 Console.WriteLine(transaction);
             }
+        }
+
+
+        private static void CheckBalance()
+        {
+            Account account = AccountDetails.GetAccountByUsername(loggedInUsername);
+            if (account != null)
+            {
+                Console.WriteLine("Account Balance: " + account.AccountBalance);
+            }
+            else
+            {
+                Console.WriteLine("Account not found.");
+            }
+        }
+
+        //method to set the logged-in username
+        public static void SetLoggedInUsername(string username)
+        {
+            loggedInUsername = username;
         }
     }
 }

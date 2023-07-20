@@ -1,5 +1,4 @@
 ﻿using System;
-using BankApp.AccountHolder;
 
 namespace BankApp.BankStaff
 {
@@ -111,7 +110,6 @@ namespace BankApp.BankStaff
                     case 4:
                         Console.WriteLine("Show all Accounts");
                         AccountDetails.ShowAllAccounts();
-                        //ViewAccountBalance();
                         break;
                     case 5:
                         Console.WriteLine("Add New Accepted Currency");
@@ -130,7 +128,6 @@ namespace BankApp.BankStaff
                         Console.WriteLine("Enter the account number:");
                         string accountNumber = Console.ReadLine();
                         AccountDetails.ViewAccountTransactionHistory(accountNumber);
-                        //ViewAccountBalance();
                         break;
                     case 9:
                         Console.WriteLine("Going back to start...");

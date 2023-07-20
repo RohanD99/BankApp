@@ -1,14 +1,11 @@
-﻿using BankApp.BankStaff;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Security.Policy;
 
 namespace BankApp.SetupNewBank
 {
     internal class BankManager
     {
-        private static List<NewBank> banks = new List<NewBank>();
+        public static List<NewBank> banks = new List<NewBank>();
         private static List<StaffMember> staffMembers = new List<StaffMember>();
         public static void AddBank(NewBank newBank)
         {
