@@ -82,12 +82,13 @@ namespace BankApp.AccountHolder
                     Console.WriteLine("1. Deposit amount");
                     Console.WriteLine("2. Withdraw amount");
                     Console.WriteLine("3. Transfer funds");
-                    Console.WriteLine("4. View transaction history");
-                    Console.WriteLine("5. Go back to start");
+                    Console.WriteLine("4. Check Balance");
+                    Console.WriteLine("5. View transaction history");
+                    Console.WriteLine("6. Go back to start");
                     Console.WriteLine();
 
                     int action = GetUserChoice();
-                    if (action == 5)
+                    if (action == 6)
                     {
                         Console.WriteLine("Going back to start...");
                         UserAccount.IsAccountHolderLoggedIn = false;

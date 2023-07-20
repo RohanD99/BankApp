@@ -92,22 +92,6 @@ namespace BankApp.BankStaff
                 return action;
             }
 
-            private static void ViewAccountBalance()
-            {
-                Console.WriteLine("Enter the account number:");
-                string accountNumber = Console.ReadLine();
-
-                decimal accountBalance = UserAccount.GetAccountBalanceByAccountNumber(accountNumber);
-                if (accountBalance != 0)
-                {
-                    Console.WriteLine("Account Balance: " + accountBalance);
-                }
-                else
-                {
-                    Console.WriteLine("Account not found.");
-                }
-            }
-
             public static void PerformBankStaffAction(int action)
             {
                 switch (action)
@@ -146,7 +130,7 @@ namespace BankApp.BankStaff
                         Console.WriteLine("Enter the account number:");
                         string accountNumber = Console.ReadLine();
                         AccountDetails.ViewAccountTransactionHistory(accountNumber);
-                        ViewAccountBalance();
+                        //ViewAccountBalance();
                         break;
                     case 9:
                         Console.WriteLine("Going back to start...");

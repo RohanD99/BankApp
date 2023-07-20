@@ -22,6 +22,7 @@ namespace BankApp.BankStaff
             public NewBank Bank { get; set; }
             public decimal AccountBalance { get; set; }
             public List<string> TransactionHistory { get; set; }
+            public string LinkedAccountNumber { get; set; }
         }
 
         public static List<Account> accounts = new List<Account>();
@@ -62,7 +63,8 @@ namespace BankApp.BankStaff
                 AccountBalance = 0,
                 TransactionHistory = new List<string>(),
                 Type = accountType,
-                Bank = selectedBank
+                Bank = selectedBank,
+                LinkedAccountNumber = string.Empty
             };
 
             accounts.Add(newAccount);
@@ -177,7 +179,8 @@ namespace BankApp.BankStaff
                 Password = password,
                 AccountNumber = string.Empty,
                 AccountBalance = 0,
-                TransactionHistory = new List<string>()
+                TransactionHistory = new List<string>(),
+                Bank = null
             };
 
             accounts.Add(newAccount);

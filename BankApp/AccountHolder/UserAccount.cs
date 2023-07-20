@@ -24,14 +24,45 @@ namespace BankApp.AccountHolder
             set { isAccountHolderLoggedIn = value; }
         }
 
-        public static decimal GetAccountBalanceByAccountNumber(string accountNumber)
+        private static void CheckTotalAccountBalance()
         {
-            AccountDetails.Account account = AccountDetails.GetAccountByNumber(accountNumber);
-            if (account != null)
+            Console.WriteLine("Enter the account number to check the total account balance:");
+            string accountNumber = Console.ReadLine();
+
+            decimal totalBalance = CalculateTotalAccountBalance(accountNumber);
+            if (totalBalance >= 0)
             {
-                return account.AccountBalance;
+                Console.WriteLine("Total Account Balance for Account Number " + accountNumber + ": " + totalBalance);
             }
-            return 0;
+            else
+            {
+                Console.WriteLine("Account not found.");
+            }
+        }
+
+        private static decimal CalculateTotalAccountBalance(string accountNumber)
+        {
+            decimal totalBalance = 0;
+            foreach (AccountDetails.Account account in AccountDetails.accounts)
+            {
+                if (account.AccountNumber == accountNumber)
+                {
+                    totalBalance = account.AccountBalance;
+
+                    // Check for linked account balance
+                    if (!string.IsNullOrEmpty(account.LinkedAccountNumber))
+                    {
+                        var linkedAccount = AccountDetails.GetAccountByNumber(account.LinkedAccountNumber);
+                        if (linkedAccount != null)
+                        {
+                            totalBalance += linkedAccount.AccountBalance;
+                        }
+                    }
+
+                    return totalBalance;
+                }
+            }
+            return -1; // Indicates that the account was not found
         }
 
         public static void PerformAccountHolderAction(int action)
@@ -48,9 +79,12 @@ namespace BankApp.AccountHolder
                     TransferFunds();
                     break;
                 case 4:
-                    ViewTransactionHistory();
+                    
                     break;
                 case 5:
+                    ViewTransactionHistory();
+                    break;
+                case 6:
                     Console.WriteLine("Going back to start...");
                     isAccountHolderLoggedIn = false;
                     break;
@@ -74,7 +108,6 @@ namespace BankApp.AccountHolder
                 accountBalance += amount;
                 Console.WriteLine("Amount deposited successfully.");
                 transactionHistory.Add("Deposit: +" + amount);
-                UpdateLinkedAccountBalance(amount);
             }
         }
 
@@ -96,10 +129,9 @@ namespace BankApp.AccountHolder
                 accountBalance -= amount;
                 Console.WriteLine("Amount withdrawn successfully.");
                 transactionHistory.Add("Withdrawal: -" + amount);
-                UpdateLinkedAccountBalance(-amount);
+              
             }
         }
-
 
         private static void TransferFunds()
         {
@@ -122,22 +154,11 @@ namespace BankApp.AccountHolder
                 Console.WriteLine("Funds transferred successfully.");
                 accountBalance -= amount;
                 transactionHistory.Add("Transfer: -" + amount + " to Account No. " + recipientAccountNumber);
-                UpdateLinkedAccountBalance(-amount);
+                
             }
         }
 
-        private static void UpdateLinkedAccountBalance(double amount)
-        {
-            if (!string.IsNullOrEmpty(linkedAccountNumber))
-            {
-                var account = AccountDetails.GetAccountByNumber(linkedAccountNumber);
-                if (account != null)
-                {
-                    account.AccountBalance += (decimal)amount;
-                    account.TransactionHistory.Add("Linked Account Transaction: " + (amount >= 0 ? "+" : "-") + Math.Abs(amount));
-                }
-            }
-        }
+      
 
         private static void ViewTransactionHistory()
         {

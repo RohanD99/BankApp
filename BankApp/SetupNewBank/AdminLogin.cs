@@ -55,7 +55,7 @@ namespace BankApp.SetupNewBank
                     {
                         isAdminLoggedIn = true;
                         Console.WriteLine("Admin login successful.");
-                        break; 
+                        break;
                     }
                     else
                     {
@@ -120,9 +120,8 @@ namespace BankApp.SetupNewBank
                 AccountDetails.AddStaffAccount(username, password);
 
                 Console.WriteLine("Staff hired successfully.");
-
             }
         }
     }
-    }
+}
 
