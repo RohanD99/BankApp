@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BankApp.Models;
+using BankApp.AccountHolder;
 
 namespace BankApp.BankStaff
 {
@@ -13,7 +14,7 @@ namespace BankApp.BankStaff
             Savings,
             Salary
         }
-      
+
 
         public static List<Account> accounts = new List<Account>();
 
@@ -134,7 +135,7 @@ namespace BankApp.BankStaff
                         Console.WriteLine("Username: " + account.Username);
                         Console.WriteLine("Password: " + account.Password);
                         Console.WriteLine("Account Type: " + account.Type);
-                        Console.WriteLine("Account Balance: " + account.AccountBalance);
+                        Console.WriteLine("Account Balance: " + account.AccountBalance); // Display account balance from the account object
                         Console.WriteLine("Bank name: " + account.Bank.bankName);
                         Console.WriteLine("-------------------------------------------");
                     }

@@ -7,7 +7,7 @@ namespace BankApp.SetupNewBank
 {
     internal class AdminLogin
     {
-        private static bool isAdminLoggedIn = false;
+        //private static bool isAdminLoggedIn = false;
         private static NewBank newBank;
 
         public static void RunAdminLogin()
@@ -54,7 +54,7 @@ namespace BankApp.SetupNewBank
                     // Check if admin credentials are valid
                     if (adminUsername == "admin" && adminPassword == "password")
                     {
-                        isAdminLoggedIn = true;
+                        //isAdminLoggedIn = true;
                         Console.WriteLine("Admin login successful.");
                         break;
                     }
@@ -82,29 +82,40 @@ namespace BankApp.SetupNewBank
                         Console.WriteLine("5. Exit");
                         Console.Write("Enter your choice: ");
 
-                        int choice = Convert.ToInt32(Console.ReadLine());
-
-                        switch (choice)
+                        try
                         {
-                            case 1:
-                                BankManager.DisplayBanks();
-                                break;
-                            case 2:
-                                newBank = new NewBank();
-                                BankSetup.SetupNewBank(newBank);
-                                break;
-                            case 3:
-                                HireStaff();
-                                break;
-                            case 4:
-                                BankManager.DisplayStaffMembers();
-                                break;
-                            case 5:
-                                Console.WriteLine("Exiting...");
-                                return;
-                            default:
-                                Console.WriteLine("Invalid choice. Please try again.");
-                                break;
+                            int choice = Convert.ToInt32(Console.ReadLine());
+
+                            switch (choice)
+                            {
+                                case 1:
+                                    BankManager.DisplayBanks();
+                                    break;
+                                case 2:
+                                    newBank = new NewBank();
+                                    BankSetup.SetupNewBank(newBank);
+                                    break;
+                                case 3:
+                                    HireStaff();
+                                    break;
+                                case 4:
+                                    BankManager.DisplayStaffMembers();
+                                    break;
+                                case 5:
+                                    Console.WriteLine("Exiting...");
+                                    return;
+                                default:
+                                    Console.WriteLine("Invalid choice. Please try again.");
+                                    break;
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number.");
+                        }
+                        catch (OverflowException)
+                        {
+                            Console.WriteLine("Invalid input. The number is too large or too small.");
                         }
                     }
                 }

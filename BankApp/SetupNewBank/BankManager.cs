@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BankApp.SetupNewBank
 {
@@ -62,11 +63,12 @@ namespace BankApp.SetupNewBank
 
         public static void AddStaffMember(string username, string password)
         {
-            staffMembers.Add(new StaffMember(username, password));
+            staffMembers.Append(new StaffMember(username, password));
         }
 
         public static void DisplayStaffMembers()
         {
+            Console.WriteLine(staffMembers.Count);
             if (staffMembers.Count > 0)
             {
                 Console.WriteLine("List of Staff Members:");
@@ -80,7 +82,7 @@ namespace BankApp.SetupNewBank
             }
             else
             {
-                Console.WriteLine("No staff members found.");
+                Console.WriteLine("No staff members11 found.");
             }
         }
     }

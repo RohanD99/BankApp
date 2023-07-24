@@ -15,5 +15,6 @@ namespace BankApp.Models
         public decimal AccountBalance { get; set; }
         public List<string> TransactionHistory { get; set; }
         public string LinkedAccountNumber { get; set; }
+
     }
 }

@@ -86,7 +86,8 @@ namespace BankApp.SetupNewBank
                     throw new ArgumentException("Invalid bank name. Please enter only alphabets.");
                 }
 
-                return bankName.Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
+                string currentDate = DateTime.Now.ToString("yyyyMMdd");
+                return bankName.Substring(0, 3) + currentDate;
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -99,6 +100,7 @@ namespace BankApp.SetupNewBank
                 return null;
             }
         }
+
 
         private static string GenerateBranchCode(string branchName)
         {
