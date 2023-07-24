@@ -68,9 +68,7 @@ namespace BankApp.SetupNewBank
 
         public static void DisplayStaffMembers()
         {
-            Console.WriteLine(staffMembers.Count);
-            if (staffMembers.Count > 0)
-            {
+            
                 Console.WriteLine("List of Staff Members:");
                 foreach (StaffMember staffMember in staffMembers)
                 {
@@ -80,13 +78,10 @@ namespace BankApp.SetupNewBank
                     Console.WriteLine("-------------------------------------------");
                 }
             }
-            else
-            {
-                Console.WriteLine("No staff members11 found.");
-            }
+           
         }
     }
-}
+
 
 
 

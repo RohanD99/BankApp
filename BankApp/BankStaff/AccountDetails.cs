@@ -15,7 +15,6 @@ namespace BankApp.BankStaff
             Salary
         }
 
-
         public static List<Account> accounts = new List<Account>();
 
         public static void AddAccount(Account account)
@@ -124,6 +123,7 @@ namespace BankApp.BankStaff
 
         public static void ShowAllAccounts()
         {
+            UserAccount userAccount = new UserAccount();
             if (accounts.Count > 0)
             {
                 Console.WriteLine("List of User Accounts:");
@@ -135,7 +135,7 @@ namespace BankApp.BankStaff
                         Console.WriteLine("Username: " + account.Username);
                         Console.WriteLine("Password: " + account.Password);
                         Console.WriteLine("Account Type: " + account.Type);
-                        Console.WriteLine("Account Balance: " + account.AccountBalance); // Display account balance from the account object
+                        Console.WriteLine("Account Balance: " + account.AccountBalance);
                         Console.WriteLine("Bank name: " + account.Bank.bankName);
                         Console.WriteLine("-------------------------------------------");
                     }
