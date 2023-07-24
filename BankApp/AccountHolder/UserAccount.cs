@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankApp.BankStaff;
 using BankApp.Models;
 
 namespace BankApp.AccountHolder
 {
     internal class UserAccount
     {
-        private static double accountBalance = 0;
-        private static List<string> transactionHistory = new List<string>();
+        public double accountBalance = 0;
+        Account account;
+        private List<string> transactionHistory = new List<string>();
         private static bool isAccountHolderLoggedIn = false;
         private static string loggedInUsername = string.Empty;
 
@@ -18,7 +18,7 @@ namespace BankApp.AccountHolder
             set { isAccountHolderLoggedIn = value; }
         }
 
-        public static void PerformAccountHolderAction(int action)
+        public void PerformAccountHolderAction(int action)
         {
             switch (action)
             {
@@ -47,7 +47,7 @@ namespace BankApp.AccountHolder
             }
         }
 
-        private static void DepositAmount()
+        private void DepositAmount()
         {
             Console.WriteLine("Enter the amount to deposit:");
             double amount = Convert.ToDouble(Console.ReadLine());
@@ -64,7 +64,7 @@ namespace BankApp.AccountHolder
             }
         }
 
-        private static void WithdrawAmount()
+        private void WithdrawAmount()
         {
             Console.WriteLine("Enter the amount to withdraw:");
             double amount = Convert.ToDouble(Console.ReadLine());
@@ -82,11 +82,10 @@ namespace BankApp.AccountHolder
                 accountBalance -= amount;
                 Console.WriteLine("Amount withdrawn successfully.");
                 transactionHistory.Add("Withdrawal: -" + amount);
-
             }
         }
 
-        private static void TransferFunds()
+        private void TransferFunds()
         {
             Console.WriteLine("Enter the amount to transfer:");
             double amount = Convert.ToDouble(Console.ReadLine());
@@ -107,13 +106,10 @@ namespace BankApp.AccountHolder
                 Console.WriteLine("Funds transferred successfully.");
                 accountBalance -= amount;
                 transactionHistory.Add("Transfer: -" + amount + " to Account No. " + recipientAccountNumber);
-
             }
         }
 
-
-
-        private static void ViewTransactionHistory()
+        private void ViewTransactionHistory()
         {
             Console.WriteLine("Transaction History:");
             foreach (string transaction in transactionHistory)
@@ -122,21 +118,12 @@ namespace BankApp.AccountHolder
             }
         }
 
-
-        private static void CheckBalance()
+        private void CheckBalance()
         {
-            Account account = AccountDetails.GetAccountByUsername(loggedInUsername);
-            if (account != null)
-            {
-                Console.WriteLine("Account Balance: " + account.AccountBalance);
-            }
-            else
-            {
-                Console.WriteLine("Account not found.");
-            }
+            Console.WriteLine("Account Balance: " + accountBalance);
         }
 
-        //method to set the logged-in username
+        // Method to set the logged-in username
         public static void SetLoggedInUsername(string username)
         {
             loggedInUsername = username;

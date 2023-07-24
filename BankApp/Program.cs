@@ -1,18 +1,21 @@
-﻿using System;
+﻿using BankApp.SetupNewBank;
+using System;
 using static BankApp.AccountHolder.UserLogin;
 using static BankApp.BankStaff.StaffLogin;
 using static BankApp.SetupNewBank.AdminLogin;
+using static BankApp.SetupNewBank.NewBank;
 
 namespace BankApp
 {
     internal class Program
     {
+        private static NewBank newBank;
         public static void Main()
         {
             int option;
             do
             {
-                Console.WriteLine("_______///Welcome\\\\\\________\nSelect an option:\n1. Setup new Bank\n2. Login as Account Holder\n3. Login as Bank Staff\n4. Exit\n");
+                Console.WriteLine("_______///Welcome to Bank Management System\\\\\\________\nSelect an option:\n1. Setup new Bank\n2. Login as Account Holder\n3. Login as Bank Staff\n4. Exit\n");
 
                 string input = Console.ReadLine();
                 if (int.TryParse(input, out option))              //converts string to int & out holds the result of conversion
@@ -20,7 +23,9 @@ namespace BankApp
                     switch (option)
                     {
                         case 1:
-                            AdminVerification.Verification();
+                            newBank = new NewBank();
+                            BankSetup.SetupNewBank(newBank);
+                            AdminVerification.AdminMenu();
                             break;
                         case 2:
                             LoginAsAccountHolder.AccountHolder();

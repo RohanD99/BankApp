@@ -3,55 +3,55 @@ using System;
 
 namespace BankApp.AccountHolder
 {
-        internal class UserLogin
+    internal class UserLogin
+    {
+        public class LoginAsAccountHolder
         {
-            public class LoginAsAccountHolder
+            private static string loggedInUsername = string.Empty;
+
+            public static void AccountHolder()
             {
-                private static string loggedInUsername = string.Empty;
-
-                public static void AccountHolder()
+                if (UserAccount.IsAccountHolderLoggedIn)
                 {
-                    if (UserAccount.IsAccountHolderLoggedIn)
+                    Console.WriteLine("You are already logged in as " + loggedInUsername);
+                    DisplayAccountHolderOptions();
+                }
+                else
+                {
+                    Console.WriteLine("Login as Account Holder");
+                    int attempts = 3;
+                    while (attempts > 0)
                     {
-                        Console.WriteLine("You are already logged in as " + loggedInUsername);
-                        DisplayAccountHolderOptions();
+                        Console.WriteLine("Enter your username:");
+                        string username = Console.ReadLine();
+
+                        Console.WriteLine("Enter your password:");
+                        string password = Console.ReadLine();
+
+                        if (ValidateCredentials(username, password))
+                        {
+                            UserAccount.IsAccountHolderLoggedIn = true;
+                            loggedInUsername = username;
+
+                            Console.WriteLine("Login successful. Welcome, " + username + "!");
+                            DisplayAccountHolderOptions();
+                            break;
+                        }
+                        else
+                        {
+                            attempts--;
+                            Console.WriteLine($"Invalid username or password. {attempts} attempts left.");
+                        }
                     }
-                    else
+
+                    if (attempts == 0)
                     {
-                        Console.WriteLine("Login as Account Holder");
-                        int attempts = 3;
-                        while (attempts > 0)
-                        {
-                            Console.WriteLine("Enter your username:");
-                            string username = Console.ReadLine();
-
-                            Console.WriteLine("Enter your password:");
-                            string password = Console.ReadLine();
-
-                            if (ValidateCredentials(username, password))
-                            {
-                                UserAccount.IsAccountHolderLoggedIn = true;
-                                loggedInUsername = username;
-
-                                Console.WriteLine("Login successful. Welcome, " + username + "!");
-                                DisplayAccountHolderOptions();
-                                break;
-                            }
-                            else
-                            {
-                                attempts--;
-                                Console.WriteLine($"Invalid username or password. {attempts} attempts left.");
-                            }
-                        }
-
-                        if (attempts == 0)
-                        {
-                            Console.WriteLine("Login failed. You've reached the maximum number of attempts.");
-                        }
+                        Console.WriteLine("Login failed. You've reached the maximum number of attempts.");
                     }
                 }
+            }
 
-                private static bool ValidateCredentials(string username, string password)
+            private static bool ValidateCredentials(string username, string password)
             {
                 foreach (var account in AccountDetails.accounts)
                 {
@@ -76,6 +76,7 @@ namespace BankApp.AccountHolder
 
             private static void DisplayAccountHolderOptions()
             {
+                UserAccount userAccount = new UserAccount(); 
                 while (true)
                 {
                     Console.WriteLine("Select an action:");
@@ -94,7 +95,7 @@ namespace BankApp.AccountHolder
                         UserAccount.IsAccountHolderLoggedIn = false;
                         break;
                     }
-                    UserAccount.PerformAccountHolderAction(action);
+                    userAccount.PerformAccountHolderAction(action); 
                 }
             }
         }

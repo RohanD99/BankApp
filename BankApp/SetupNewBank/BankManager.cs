@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BankApp.SetupNewBank
 {
     internal class BankManager
     {
         public static List<NewBank> banks = new List<NewBank>();
-        private static List<StaffMember> staffMembers = new List<StaffMember>();
+
         public static void AddBank(NewBank newBank)
         {
             banks.Add(newBank);
@@ -60,35 +59,5 @@ namespace BankApp.SetupNewBank
             }
             return null;
         }
-
-        public static void AddStaffMember(string username, string password)
-        {
-            staffMembers.Append(new StaffMember(username, password));
-        }
-
-        public static void DisplayStaffMembers()
-        {
-            
-                Console.WriteLine("List of Staff Members:");
-                foreach (StaffMember staffMember in staffMembers)
-                {
-                    Console.WriteLine("-------------------------------------------");
-                    Console.WriteLine("Username: " + staffMember.Username);
-                    Console.WriteLine("Password: " + staffMember.Password);
-                    Console.WriteLine("-------------------------------------------");
-                }
-            }
-           
-        }
     }
-
-
-
-
-
-
-
-
-
-
-
+}

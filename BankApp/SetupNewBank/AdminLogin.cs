@@ -1,129 +1,77 @@
 ﻿using BankApp.BankStaff;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using static BankApp.SetupNewBank.NewBank;
 
 namespace BankApp.SetupNewBank
 {
     internal class AdminLogin
     {
-        //private static bool isAdminLoggedIn = false;
-        private static NewBank newBank;
+        private static bool isAdminLoggedIn = false;
+        private static bool isAdminAdded = false;
 
-        public static void RunAdminLogin()
-        {
-            while (true)
-            {
-                Console.WriteLine("Admin Login");
-                Console.WriteLine("------------");
-                Console.WriteLine("1. Login");
-                Console.WriteLine("2. Exit");
-                Console.Write("Enter your choice: ");
-
-                int choice = Convert.ToInt32(Console.ReadLine());
-
-                switch (choice)
-                {
-                    case 1:
-                        AdminVerification.Verification();
-                        break;
-                    case 2:
-                        Console.WriteLine("Exiting...");
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-            }
-        }
+        // Lists to store admin and staff credentials
+        private static List<string> adminUsernames = new List<string>();
+        private static List<string> adminPasswords = new List<string>();
+        private static List<string> staffUsernames = new List<string>();
+        private static List<string> staffPasswords = new List<string>();
 
         public class AdminVerification
         {
-            public static void Verification()
+            public static void AdminMenu()
             {
-                int attempts = 3;
-
-                while (attempts > 0)
+                while (true)
                 {
-                    Console.WriteLine("Enter admin username:");
-                    string adminUsername = Console.ReadLine();
+                    Console.WriteLine("\nBank Management Menu");
+                    Console.WriteLine("---------------------");
+                    Console.WriteLine("1. Display all banks");
+                    Console.WriteLine("2. Create Admin");
+                    Console.WriteLine("3. Exit");
+                    Console.Write("Enter your choice: ");
 
-                    Console.WriteLine("Enter admin password:");
-                    string adminPassword = Console.ReadLine();
-
-                    // Check if admin credentials are valid
-                    if (adminUsername == "admin" && adminPassword == "password")
+                    try
                     {
-                        //isAdminLoggedIn = true;
-                        Console.WriteLine("Admin login successful.");
-                        break;
-                    }
-                    else
-                    {
-                        attempts--;
-                        Console.WriteLine($"Invalid admin credentials. {attempts} attempts left.");
-                    }
-                }
+                        int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (attempts == 0)
-                {
-                    Console.WriteLine("Login failed. You've reached the maximum number of attempts.");
-                }
-                else
-                {
-                    while (true)
-                    {
-                        Console.WriteLine("\nBank Management Menu");
-                        Console.WriteLine("---------------------");
-                        Console.WriteLine("1. Display all banks");
-                        Console.WriteLine("2. Add new bank");
-                        Console.WriteLine("3. Hire a staff");
-                        Console.WriteLine("4. Show All staff members");
-                        Console.WriteLine("5. Exit");
-                        Console.Write("Enter your choice: ");
-
-                        try
+                        switch (choice)
                         {
-                            int choice = Convert.ToInt32(Console.ReadLine());
-
-                            switch (choice)
-                            {
-                                case 1:
-                                    BankManager.DisplayBanks();
-                                    break;
-                                case 2:
-                                    newBank = new NewBank();
-                                    BankSetup.SetupNewBank(newBank);
-                                    break;
-                                case 3:
+                            case 1:
+                                BankManager.DisplayBanks();
+                                break;
+                            case 2:
+                                if (!isAdminAdded)
+                                {
+                                    isAdminAdded = true;
+                                    HireAdmin();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("An admin has already been added.");
                                     HireStaff();
-                                    break;
-                                case 4:
-                                    BankManager.DisplayStaffMembers();
-                                    break;
-                                case 5:
-                                    Console.WriteLine("Exiting...");
-                                    return;
-                                default:
-                                    Console.WriteLine("Invalid choice. Please try again.");
-                                    break;
-                            }
+                                }
+                                break;
+                            case 3:
+                                Console.WriteLine("Exiting...");
+                                return;
+                            default:
+                                Console.WriteLine("Invalid choice. Please try again.");
+                                break;
                         }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid number.");
-                        }
-                        catch (OverflowException)
-                        {
-                            Console.WriteLine("Invalid input. The number is too large or too small.");
-                        }
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                    }
+                    catch (OverflowException)
+                    {
+                        Console.WriteLine("Invalid input. The number is too large or too small.");
                     }
                 }
             }
 
-            private static void HireStaff()
+            private static void HireAdmin()
             {
-                Console.WriteLine("Enter staff username:");
+                Console.WriteLine("Enter admin username:");
                 string username = Console.ReadLine();
 
                 if (!IsValidInput(username))
@@ -132,12 +80,70 @@ namespace BankApp.SetupNewBank
                     return;
                 }
 
-                Console.WriteLine("Enter staff password:");
+                if (adminUsernames.Contains(username))
+                {
+                    Console.WriteLine("Admin username already exists. Please choose a different username.");
+                    return;
+                }
+
+                Console.WriteLine("Enter admin password:");
                 string password = Console.ReadLine();
 
-                AccountDetails.AddStaffAccount(username, password);
+                if (adminPasswords.Contains(password))
+                {
+                    Console.WriteLine("Admin password already exists. Please choose a different password.");
+                    return;
+                }
 
-                Console.WriteLine("Staff hired successfully.");
+                adminUsernames.Add(username);
+                adminPasswords.Add(password);
+
+                Console.WriteLine("Admin hired successfully.");
+            }
+
+            private static void HireStaff()
+            {
+                while (true)
+                {
+                    Console.WriteLine("Hiring a staff !!");
+                    Console.WriteLine("Enter staff username:");
+                    string username = Console.ReadLine();
+
+                    if (!IsValidInput(username))
+                    {
+                        Console.WriteLine("Invalid username. Please enter only alphabets.");
+                        continue;
+                    }
+
+                    if (staffUsernames.Contains(username) || adminUsernames.Contains(username))
+                    {
+                        Console.WriteLine("Username already exists. Please choose a different username.");
+                        continue;
+                    }
+
+                    Console.WriteLine("Enter staff password:");
+                    string password = Console.ReadLine();
+
+                    if (staffPasswords.Contains(password) || adminPasswords.Contains(password))
+                    {
+                        Console.WriteLine("Password already exists. Please choose a different password.");
+                        continue;
+                    }
+
+                    staffUsernames.Add(username);
+                    staffPasswords.Add(password);
+
+                    AccountDetails.AddStaffAccount(username, password);
+
+                    Console.WriteLine("Staff hired successfully.");
+
+                    Console.WriteLine("Do you want to add more staff? (Y/N):");
+                    string response = Console.ReadLine();
+                    if (response.ToUpper() != "Y")
+                    {
+                        break;
+                    }
+                }
             }
 
             private static bool IsValidInput(string input)
@@ -147,4 +153,3 @@ namespace BankApp.SetupNewBank
         }
     }
 }
-

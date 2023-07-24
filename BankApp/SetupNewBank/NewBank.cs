@@ -38,7 +38,6 @@ namespace BankApp.SetupNewBank
                     return;
                 }
 
-
                 Console.WriteLine("Enter currency type (1 for INR, 2 for USD, etc.):");
                 newBank.currencyType = Convert.ToInt32(Console.ReadLine());
 
@@ -101,7 +100,6 @@ namespace BankApp.SetupNewBank
             }
         }
 
-
         private static string GenerateBranchCode(string branchName)
         {
             try
@@ -125,13 +123,12 @@ namespace BankApp.SetupNewBank
             }
         }
 
-
         private static string GenerateIfscCode(string branchName)
         {
             if (string.IsNullOrEmpty(branchName))
             {
                 Console.WriteLine("Branch name is null or empty. Please enter a valid name.");
-                return null; 
+                return null;
             }
 
             Random random = new Random();
@@ -144,7 +141,7 @@ namespace BankApp.SetupNewBank
             else
             {
                 Console.WriteLine("Branch name is too short. Please enter a valid name.");
-                return null; 
+                return null;
             }
         }
 
@@ -152,6 +149,5 @@ namespace BankApp.SetupNewBank
         {
             return Regex.IsMatch(input, "^[a-zA-Z]+$");
         }
-
     }
 }

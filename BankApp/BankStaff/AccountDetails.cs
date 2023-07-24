@@ -92,6 +92,12 @@ namespace BankApp.BankStaff
                 Console.WriteLine("Enter new password:");
                 string newPassword = Console.ReadLine();
 
+                Console.WriteLine("Change type of account (1 for Savings, 2 for Salary):");
+                int accountTypeChoice = Convert.ToInt32(Console.ReadLine());
+
+                AccountType accountType = (AccountType)accountTypeChoice;
+                account.Type = accountType;
+
                 account.Username = newUsername;
                 account.Password = newPassword;
 
@@ -135,8 +141,15 @@ namespace BankApp.BankStaff
                         Console.WriteLine("Username: " + account.Username);
                         Console.WriteLine("Password: " + account.Password);
                         Console.WriteLine("Account Type: " + account.Type);
-                        Console.WriteLine("Account Balance: " + account.AccountBalance);
-                        Console.WriteLine("Bank name: " + account.Bank.bankName);
+                        if (account.Bank != null)
+                        {
+                            Console.WriteLine("Bank name: " + account.Bank.bankName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Bank name: N/A");
+                        }
+
                         Console.WriteLine("-------------------------------------------");
                     }
                 }
@@ -146,6 +159,7 @@ namespace BankApp.BankStaff
                 Console.WriteLine("No accounts found.");
             }
         }
+    
 
         public static void ViewAccountTransactionHistory(string accountNumber)
         {
