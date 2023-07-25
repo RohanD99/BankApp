@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BankApp.SetupNewBank
 {
-    internal class NewBank
+    internal class Bank
     {
         public string bankId;
         public string bankName;
@@ -16,9 +17,10 @@ namespace BankApp.SetupNewBank
         public int impsChargeOtherBank;
         public int currencyType;
 
+
         public class BankSetup
         {
-            public static void SetupNewBank(NewBank newBank)
+            public static void SetupNewBank(Bank newBank)
             {
                 Console.WriteLine("Enter bank name:");
                 newBank.bankName = Console.ReadLine();
@@ -38,27 +40,11 @@ namespace BankApp.SetupNewBank
                     return;
                 }
 
-                Console.WriteLine("Enter currency type (1 for INR, 2 for USD, etc.):");
-                newBank.currencyType = Convert.ToInt32(Console.ReadLine());
-
                 newBank.bankId = GenerateBankId(newBank.bankName.ToUpper());
                 newBank.branchCode = GenerateBranchCode(newBank.branchName);
                 newBank.ifscCode = GenerateIfscCode(newBank.branchName);
 
-                if (newBank.currencyType == 1) // INR currency
-                {
-                    newBank.rtgsCharge = 0;
-                    newBank.impsCharge = 5;
-                    newBank.rtgsChargeOtherBank = 0;
-                    newBank.impsChargeOtherBank = 0;
-                }
-                else // Other currency
-                {
-                    newBank.rtgsCharge = 0;
-                    newBank.impsCharge = 0;
-                    newBank.rtgsChargeOtherBank = 2;
-                    newBank.impsChargeOtherBank = 6;
-                }
+                newBank.CalculateCharges();
 
                 BankManager.AddBank(newBank);
 
@@ -75,7 +61,6 @@ namespace BankApp.SetupNewBank
                 Console.WriteLine("-------------------------------------------");
             }
         }
-
         private static string GenerateBankId(string bankName)
         {
             try
@@ -148,6 +133,25 @@ namespace BankApp.SetupNewBank
         private static bool IsValidInput(string input)
         {
             return Regex.IsMatch(input, "^[a-zA-Z]+$");
+        }
+
+
+        public void CalculateCharges()
+        {
+            if (currencyType == 1) 
+            {
+                impsCharge = 5;
+                rtgsCharge = 0;
+                impsChargeOtherBank = 0;
+                rtgsChargeOtherBank = 0;
+            }
+            else 
+            {
+                impsCharge = 6;
+                rtgsCharge = 0;
+                impsChargeOtherBank = 6;
+                rtgsChargeOtherBank = 2;
+            }
         }
     }
 }

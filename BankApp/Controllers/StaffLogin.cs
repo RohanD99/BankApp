@@ -49,7 +49,7 @@ namespace BankApp.BankStaff
                 }
             }
 
-            private static void DisplayBankStaffOptions()
+            public static void DisplayBankStaffOptions()
             {
                 while (true)
                 {

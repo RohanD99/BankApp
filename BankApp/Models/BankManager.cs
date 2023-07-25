@@ -5,9 +5,9 @@ namespace BankApp.SetupNewBank
 {
     internal class BankManager
     {
-        public static List<NewBank> banks = new List<NewBank>();
+        public static List<Bank> banks = new List<Bank>();
 
-        public static void AddBank(NewBank newBank)
+        public static void AddBank(Bank newBank)
         {
             banks.Add(newBank);
         }
@@ -17,7 +17,7 @@ namespace BankApp.SetupNewBank
             if (banks.Count > 0)
             {
                 Console.WriteLine("List of Banks:");
-                foreach (NewBank bank in banks)
+                foreach (Bank bank in banks)
                 {
                     Console.WriteLine("-------------------------------------------");
                     Console.WriteLine("Bank Name: " + bank.bankName);
@@ -36,9 +36,9 @@ namespace BankApp.SetupNewBank
             }
         }
 
-        public static NewBank GetBankByName(string bankName)
+        public static Bank GetBankByName(string bankName)
         {
-            foreach (NewBank bank in banks)
+            foreach (Bank bank in banks)
             {
                 if (bank.bankName == bankName)
                 {
@@ -48,9 +48,9 @@ namespace BankApp.SetupNewBank
             return null;
         }
 
-        public static NewBank GetBankById(string bankId)
+        public static Bank GetBankById(string bankId)
         {
-            foreach (NewBank bank in banks)
+            foreach (Bank bank in banks)
             {
                 if (bank.bankId == bankId)
                 {

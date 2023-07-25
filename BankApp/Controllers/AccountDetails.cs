@@ -48,7 +48,7 @@ namespace BankApp.BankStaff
             Console.WriteLine("Enter the bank ID:");
             string bankId = Console.ReadLine();
 
-            NewBank selectedBank = BankManager.GetBankById(bankId);
+            Bank selectedBank = BankManager.GetBankById(bankId);
             if (selectedBank == null)
             {
                 Console.WriteLine("Bank not found.");

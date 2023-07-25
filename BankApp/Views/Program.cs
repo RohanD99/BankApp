@@ -3,13 +3,13 @@ using System;
 using static BankApp.AccountHolder.UserLogin;
 using static BankApp.BankStaff.StaffLogin;
 using static BankApp.SetupNewBank.AdminLogin;
-using static BankApp.SetupNewBank.NewBank;
+using static BankApp.SetupNewBank.Bank;
 
 namespace BankApp
 {
     internal class Program
     {
-        private static NewBank newBank;
+        private static Bank newBank;
         public static void Main()
         {
             int option;
@@ -23,7 +23,7 @@ namespace BankApp
                     switch (option)
                     {
                         case 1:
-                            newBank = new NewBank();
+                            newBank = new Bank();
                             BankSetup.SetupNewBank(newBank);
                             AdminVerification.AdminMenu();
                             break;

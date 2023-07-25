@@ -43,18 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountHolder\UserAccount.cs" />
-    <Compile Include="AccountHolder\UserLogin.cs" />
-    <Compile Include="BankStaff\AccountDetails.cs" />
-    <Compile Include="BankStaff\CurrencyType.cs" />
-    <Compile Include="BankStaff\ServiceCharge.cs" />
-    <Compile Include="BankStaff\StaffLogin.cs" />
+    <Compile Include="Models\UserAccount.cs" />
+    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Controllers\AccountDetails.cs" />
+    <Compile Include="Controllers\CurrencyType.cs" />
+    <Compile Include="Controllers\ServiceCharge.cs" />
+    <Compile Include="Controllers\StaffLogin.cs" />
     <Compile Include="Models\BankAccount.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Views\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetupNewBank\AdminLogin.cs" />
-    <Compile Include="SetupNewBank\BankManager.cs" />
-    <Compile Include="SetupNewBank\NewBank.cs" />
+    <Compile Include="Controllers\AdminLogin.cs" />
+    <Compile Include="Models\BankManager.cs" />
+    <Compile Include="Models\NewBank.cs" />
     <Compile Include="Models\StaffMember.cs" />
   </ItemGroup>
   <ItemGroup>

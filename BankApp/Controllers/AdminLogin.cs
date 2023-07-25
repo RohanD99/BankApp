@@ -1,20 +1,11 @@
-﻿using BankApp.BankStaff;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text.RegularExpressions;
 
 namespace BankApp.SetupNewBank
 {
     internal class AdminLogin
     {
-        private static bool isAdminLoggedIn = false;
         private static bool isAdminAdded = false;
-
-        // Lists to store admin and staff credentials
-        private static List<string> adminUsernames = new List<string>();
-        private static List<string> adminPasswords = new List<string>();
-        private static List<string> staffUsernames = new List<string>();
-        private static List<string> staffPasswords = new List<string>();
 
         public class AdminVerification
         {
@@ -22,11 +13,9 @@ namespace BankApp.SetupNewBank
             {
                 while (true)
                 {
-                    Console.WriteLine("\nBank Management Menu");
                     Console.WriteLine("---------------------");
-                    Console.WriteLine("1. Display all banks");
-                    Console.WriteLine("2. Create Admin");
-                    Console.WriteLine("3. Exit");
+                    Console.WriteLine("1. Create Admin");
+                    Console.WriteLine("2. Exit");
                     Console.Write("Enter your choice: ");
 
                     try
@@ -34,11 +23,8 @@ namespace BankApp.SetupNewBank
                         int choice = Convert.ToInt32(Console.ReadLine());
 
                         switch (choice)
-                        {
+                        {                            
                             case 1:
-                                BankManager.DisplayBanks();
-                                break;
-                            case 2:
                                 if (!isAdminAdded)
                                 {
                                     isAdminAdded = true;
@@ -50,7 +36,7 @@ namespace BankApp.SetupNewBank
                                     HireStaff();
                                 }
                                 break;
-                            case 3:
+                            case 2:
                                 Console.WriteLine("Exiting...");
                                 return;
                             default:
@@ -80,24 +66,8 @@ namespace BankApp.SetupNewBank
                     return;
                 }
 
-                if (adminUsernames.Contains(username))
-                {
-                    Console.WriteLine("Admin username already exists. Please choose a different username.");
-                    return;
-                }
-
                 Console.WriteLine("Enter admin password:");
                 string password = Console.ReadLine();
-
-                if (adminPasswords.Contains(password))
-                {
-                    Console.WriteLine("Admin password already exists. Please choose a different password.");
-                    return;
-                }
-
-                adminUsernames.Add(username);
-                adminPasswords.Add(password);
-
                 Console.WriteLine("Admin hired successfully.");
             }
 
@@ -115,25 +85,8 @@ namespace BankApp.SetupNewBank
                         continue;
                     }
 
-                    if (staffUsernames.Contains(username) || adminUsernames.Contains(username))
-                    {
-                        Console.WriteLine("Username already exists. Please choose a different username.");
-                        continue;
-                    }
-
                     Console.WriteLine("Enter staff password:");
                     string password = Console.ReadLine();
-
-                    if (staffPasswords.Contains(password) || adminPasswords.Contains(password))
-                    {
-                        Console.WriteLine("Password already exists. Please choose a different password.");
-                        continue;
-                    }
-
-                    staffUsernames.Add(username);
-                    staffPasswords.Add(password);
-
-                    AccountDetails.AddStaffAccount(username, password);
 
                     Console.WriteLine("Staff hired successfully.");
 

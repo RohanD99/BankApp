@@ -5,7 +5,7 @@ using BankApp.Models;
 namespace BankApp.AccountHolder
 {
     internal class UserAccount
-    {
+    {      
         public double accountBalance = 0;
         Account account;
         private List<string> transactionHistory = new List<string>();
