@@ -1,15 +1,14 @@
 ﻿using BankApp.SetupNewBank;
 using System;
 using static BankApp.AccountHolder.UserLogin;
-using static BankApp.BankStaff.StaffLogin;
-using static BankApp.SetupNewBank.AdminLogin;
+using static BankApp.BankStaff.Staff;
+using static BankApp.SetupNewBank.Admin;
 using static BankApp.SetupNewBank.Bank;
 
 namespace BankApp
 {
     internal class Program
-    {
-        private static Bank newBank;
+    { 
         public static void Main()
         {
             int option;
@@ -18,13 +17,12 @@ namespace BankApp
                 Console.WriteLine("_______///Welcome to Bank Management System\\\\\\________\nSelect an option:\n1. Setup new Bank\n2. Login as Account Holder\n3. Login as Bank Staff\n4. Exit\n");
 
                 string input = Console.ReadLine();
-                if (int.TryParse(input, out option))              //converts string to int & out holds the result of conversion
+                if (int.TryParse(input, out option))
                 {
                     switch (option)
                     {
                         case 1:
-                            newBank = new Bank();
-                            BankSetup.SetupNewBank(newBank);
+                            BankSetup.SetupNewBank(new Bank());
                             AdminVerification.AdminMenu();
                             break;
                         case 2:
@@ -45,7 +43,6 @@ namespace BankApp
                 {
                     Console.WriteLine("Invalid input. Please enter a valid numeric option.");
                 }
-
                 Console.WriteLine();
             } while (option != 4);
         }

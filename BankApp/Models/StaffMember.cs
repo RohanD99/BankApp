@@ -1,7 +1,6 @@
-﻿
-namespace BankApp.SetupNewBank
+﻿namespace BankApp.SetupNewBank
 {
-    internal class StaffMember
+    internal class StaffMember : Bank
     {
         public string Username { get; set; }
         public string Password { get; set; }

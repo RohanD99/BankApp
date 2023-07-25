@@ -120,10 +120,9 @@ namespace BankApp.AccountHolder
 
         private void CheckBalance()
         {
-            Console.WriteLine("Account Balance: " + accountBalance);
+            Console.WriteLine("Account Balance: " +accountBalance);
         }
 
-        // Method to set the logged-in username
         public static void SetLoggedInUsername(string username)
         {
             loggedInUsername = username;

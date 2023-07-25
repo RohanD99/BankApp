@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace BankApp.SetupNewBank
 {
-    internal class AdminLogin
+    internal class Admin
     {
         private static bool isAdminAdded = false;
 

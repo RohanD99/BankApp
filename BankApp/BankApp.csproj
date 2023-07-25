@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\AdminLogin.cs" />
     <Compile Include="Models\BankManager.cs" />
-    <Compile Include="Models\NewBank.cs" />
+    <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\StaffMember.cs" />
   </ItemGroup>
   <ItemGroup>

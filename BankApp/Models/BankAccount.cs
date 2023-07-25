@@ -4,7 +4,7 @@ using static BankApp.BankStaff.AccountDetails;
 
 namespace BankApp.Models
 {
-    internal class Account
+    internal class Account : Bank
     {
         public string Username { get; set; }
         public string Password { get; set; }
@@ -15,4 +15,11 @@ namespace BankApp.Models
         public List<string> TransactionHistory { get; set; }
         public string LinkedAccountNumber { get; set; }
     }
+
+    internal enum AccountType
+    {
+        Savings,
+        Salary
+    }
+
 }

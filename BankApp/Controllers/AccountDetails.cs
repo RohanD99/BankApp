@@ -9,19 +9,7 @@ namespace BankApp.BankStaff
 {
     internal class AccountDetails
     {
-        internal enum AccountType
-        {
-            Savings,
-            Salary
-        }
-
         public static List<Account> accounts = new List<Account>();
-
-        public static void AddAccount(Account account)
-        {
-            accounts.Add(account);
-        }
-
         public static void CreateNewAccount()
         {
             if (BankManager.banks.Count == 0)
@@ -149,7 +137,6 @@ namespace BankApp.BankStaff
                         {
                             Console.WriteLine("Bank name: N/A");
                         }
-
                         Console.WriteLine("-------------------------------------------");
                     }
                 }
@@ -205,7 +192,6 @@ namespace BankApp.BankStaff
             accounts.Add(newAccount);
         }
 
-
         private static bool IsBankStaffAccount(Account account)
         {
             return account.Username.Trim().ToLower().StartsWith("staff");
@@ -216,5 +202,4 @@ namespace BankApp.BankStaff
             return accounts.Any(a => a.Username == username && a.Password == password);
         }
     }
-
 }

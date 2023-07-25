@@ -2,13 +2,11 @@
 
 namespace BankApp.BankStaff
 {
-    internal class StaffLogin
+    internal class Staff
     {
         private static bool isBankStaffLoggedIn = false;
-
         public class LoginAsBankStaff
-        {
-           
+        {          
             public static void BankStaff()
             {
                 if (isBankStaffLoggedIn)
@@ -22,24 +20,16 @@ namespace BankApp.BankStaff
                     int attempts = 3;
                     while (attempts > 0)
                     {
-                        Console.WriteLine("Enter your username:");
-                        string username = Console.ReadLine();
+                       Console.WriteLine("Enter your username:");
+                       string username = Console.ReadLine();
 
-                        Console.WriteLine("Enter your password:");
-                        string password = Console.ReadLine();
+                       Console.WriteLine("Enter your password:");
+                       string password = Console.ReadLine();
 
-                        if (ValidateBankStaffCredentials(username, password))
-                        {
-                            isBankStaffLoggedIn = true;
-                            Console.WriteLine("Login successful. Welcome, " + username + "!");
-                            DisplayBankStaffOptions();
-                            break;
-                        }
-                        else
-                        {
-                            attempts--;
-                            Console.WriteLine($"Invalid username or password. {attempts} attempts left.");
-                        }
+                       isBankStaffLoggedIn = true;
+                       Console.WriteLine("Login successful. Welcome, " + username + "!");
+                       DisplayBankStaffOptions();
+                       break;                        
                     }
 
                     if (attempts == 0)
