@@ -1,9 +1,9 @@
 ﻿using BankApp.SetupNewBank;
 using System;
-using static BankApp.AccountHolder.UserLogin;
-using static BankApp.BankStaff.Staff;
-using static BankApp.SetupNewBank.Admin;
-using static BankApp.SetupNewBank.Bank;
+using static BankApp.AccountHolder.UserLoginService;
+using static BankApp.BankStaff.StaffService;
+using static BankApp.SetupNewBank.AdminServices;
+using static BankApp.SetupNewBank.BankService;
 
 namespace BankApp
 {
@@ -22,7 +22,7 @@ namespace BankApp
                     switch (option)
                     {
                         case 1:
-                            BankSetup.SetupNewBank(new Bank());
+                            BankSetup.SetupNewBank(new BankService());
                             AdminVerification.AdminMenu();
                             break;
                         case 2:

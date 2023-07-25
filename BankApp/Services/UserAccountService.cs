@@ -1,13 +1,12 @@
-﻿using System;
+﻿using BankApp.Views;
+using System;
 using System.Collections.Generic;
-using BankApp.Models;
 
 namespace BankApp.AccountHolder
 {
-    internal class UserAccount
+    internal class UserAccountService
     {      
         public double accountBalance = 0;
-        Account account;
         private List<string> transactionHistory = new List<string>();
         private static bool isAccountHolderLoggedIn = false;
         private static string loggedInUsername = string.Empty;
@@ -38,72 +37,72 @@ namespace BankApp.AccountHolder
                     ViewTransactionHistory();
                     break;
                 case 6:
-                    Console.WriteLine("Going back to start...");
+                    AdminView.DisplayBackToStart();
                     isAccountHolderLoggedIn = false;
                     break;
                 default:
-                    Console.WriteLine("Invalid action. Please try again.");
+                    AdminView.DisplayInvalidChoice();
                     break;
             }
         }
 
         private void DepositAmount()
         {
-            Console.WriteLine("Enter the amount to deposit:");
+            AccountView.GetAmount();
             double amount = Convert.ToDouble(Console.ReadLine());
 
             if (amount <= 0)
             {
-                Console.WriteLine("Invalid amount. Please enter a positive value.");
+                AdminView.DisplayInvalidInput();
             }
             else
             {
                 accountBalance += amount;
-                Console.WriteLine("Amount deposited successfully.");
+                BankView.AmountDepositedSuccessfully();
                 transactionHistory.Add("Deposit: +" + amount);
             }
         }
 
         private void WithdrawAmount()
         {
-            Console.WriteLine("Enter the amount to withdraw:");
+            AccountView.GetAmount();
             double amount = Convert.ToDouble(Console.ReadLine());
 
             if (amount <= 0)
             {
-                Console.WriteLine("Invalid amount. Please enter a positive value.");
+                AdminView.DisplayInvalidInput();
             }
             else if (amount > accountBalance)
             {
-                Console.WriteLine("Insufficient funds. Cannot withdraw the requested amount.");
+                AccountView.DisplayInsufficientFunds();
             }
             else
             {
                 accountBalance -= amount;
-                Console.WriteLine("Amount withdrawn successfully.");
+                BankView.AmountWithdrawnSuccessfully();
                 transactionHistory.Add("Withdrawal: -" + amount);
             }
         }
 
         private void TransferFunds()
         {
-            Console.WriteLine("Enter the amount to transfer:");
+            AccountView.GetAmount();
             double amount = Convert.ToDouble(Console.ReadLine());
 
             if (amount <= 0)
             {
-                Console.WriteLine("Invalid amount. Please enter a positive value.");
+                AdminView.DisplayInvalidInput();
             }
             else if (amount > accountBalance)
             {
-                Console.WriteLine("Insufficient funds. Cannot transfer the requested amount.");
+                AccountView.DisplayInsufficientFunds();
             }
             else
             {
-                Console.WriteLine("Enter the recipient's account number:");
-                string recipientAccountNumber = Console.ReadLine();
 
-                Console.WriteLine("Funds transferred successfully.");
+                string recipientAccountNumber = AccountView.GetAccountNumberByUser();
+
+                BankView.FundsTransferredSuccessfully();
                 accountBalance -= amount;
                 transactionHistory.Add("Transfer: -" + amount + " to Account No. " + recipientAccountNumber);
             }
@@ -111,16 +110,16 @@ namespace BankApp.AccountHolder
 
         private void ViewTransactionHistory()
         {
-            Console.WriteLine("Transaction History:");
+            BankView.ViewTransactionHistory();
             foreach (string transaction in transactionHistory)
             {
-                Console.WriteLine(transaction);
+                BankView.ViewTransaction(transaction);
             }
         }
 
         private void CheckBalance()
         {
-            Console.WriteLine("Account Balance: " +accountBalance);
+            BankView.ViewBalance(accountBalance);
         }
 
         public static void SetLoggedInUsername(string username)

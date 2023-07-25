@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BankApp.Views;
+using System;
 using System.Text.RegularExpressions;
 
 namespace BankApp.SetupNewBank
 {
-    internal class Bank
+    internal class BankService
     {
         public string bankId;
         public string bankName;
@@ -16,26 +17,25 @@ namespace BankApp.SetupNewBank
         public int impsChargeOtherBank;
         public int currencyType;
 
-
         public class BankSetup
         {
-            public static void SetupNewBank(Bank newBank)
+            public static void SetupNewBank(BankService newBank)
             {
-                Console.WriteLine("Enter bank name:");
-                newBank.bankName = Console.ReadLine();
+
+                newBank.bankName = BankView.GetBankName();
 
                 if (!IsValidInput(newBank.bankName))
                 {
-                    Console.WriteLine("Invalid bank name. Please enter only alphabets.");
+                    AdminView.DisplayInvalidCredentials();
                     return;
                 }
 
-                Console.WriteLine("Enter branch name:");
+                BankView.GetBranchName();
                 newBank.branchName = Console.ReadLine();
 
                 if (!IsValidInput(newBank.branchName))
                 {
-                    Console.WriteLine("Invalid branch name. Please enter only alphabets.");
+                    AdminView.DisplayInvalidCredentials();
                     return;
                 }
 
@@ -45,19 +45,8 @@ namespace BankApp.SetupNewBank
 
                 newBank.CalculateCharges();
 
-                BankManager.AddBank(newBank);
+                BankManagerService.AddBank(newBank);
 
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Bank setup completed:");
-                Console.WriteLine("Bank Name: " + newBank.bankName);
-                Console.WriteLine("Bank ID: " + newBank.bankId);
-                Console.WriteLine("Branch Name: " + newBank.branchName);
-                Console.WriteLine("Branch IFSC Code: " + newBank.ifscCode);
-                Console.WriteLine("IMPS Charge: " + (newBank.currencyType == 1 ? newBank.impsCharge : newBank.impsChargeOtherBank) + "%");
-                Console.WriteLine("RTGS Charge: " + (newBank.currencyType == 1 ? newBank.rtgsCharge : newBank.rtgsChargeOtherBank) + "%");
-                Console.WriteLine("Currency Type: " + newBank.currencyType);
-                Console.WriteLine("Bank added successfully");
-                Console.WriteLine("-------------------------------------------");
             }
         }
         private static string GenerateBankId(string bankName)
@@ -66,7 +55,7 @@ namespace BankApp.SetupNewBank
             {
                 if (!Regex.IsMatch(bankName, "^[a-zA-Z]+$"))
                 {
-                    throw new ArgumentException("Invalid bank name. Please enter only alphabets.");
+                    AdminView.DisplayInvalidCredentials();
                 }
 
                 string currentDate = DateTime.Now.ToString("yyyyMMdd");
@@ -74,7 +63,7 @@ namespace BankApp.SetupNewBank
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("Invalid bank name length. Please enter a valid name.");
+                AdminView.DisplayInputOutOfRange();
                 return null;
             }
             catch (ArgumentException ex)
@@ -90,14 +79,14 @@ namespace BankApp.SetupNewBank
             {
                 if (!Regex.IsMatch(branchName, "^[a-zA-Z]+$"))
                 {
-                    throw new ArgumentException("Invalid branch name. Please enter only alphabets.");
+                    AdminView.DisplayInvalidCredentials();
                 }
 
                 return branchName.Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("Invalid branch name length. Please enter a valid name.");
+                AdminView.DisplayInputOutOfRange();
                 return null;
             }
             catch (ArgumentException ex)
@@ -111,7 +100,7 @@ namespace BankApp.SetupNewBank
         {
             if (string.IsNullOrEmpty(branchName))
             {
-                Console.WriteLine("Branch name is null or empty. Please enter a valid name.");
+                AdminView.DisplayInvalidCredentials();
                 return null;
             }
 
@@ -124,7 +113,7 @@ namespace BankApp.SetupNewBank
             }
             else
             {
-                Console.WriteLine("Branch name is too short. Please enter a valid name.");
+                AdminView.DisplayInputOutOfRange();
                 return null;
             }
         }

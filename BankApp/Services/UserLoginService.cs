@@ -1,60 +1,56 @@
 ﻿using BankApp.BankStaff;
-using BankApp.AccountHolder;
+using BankApp.Views;
 using System;
 
 namespace BankApp.AccountHolder
 {
-        internal class UserLogin
+        internal class UserLoginService
         {
             public class LoginAsAccountHolder
             {
                 private static string loggedInUsername = string.Empty;
-
                 public static void AccountHolder()
                 {
-                    if (UserAccount.IsAccountHolderLoggedIn)
+                    if (UserAccountService.IsAccountHolderLoggedIn)
                     {
-                        Console.WriteLine("You are already logged in as " + loggedInUsername);
+   
                         DisplayAccountHolderOptions();
                     }
                     else
                     {
-                        Console.WriteLine("Login as Account Holder");
+                    AccountView.DisplayAsUser();
                         int attempts = 3;
                         while (attempts > 0)
                         {
-                            Console.WriteLine("Enter your username:");
-                            string username = Console.ReadLine();
 
-                            Console.WriteLine("Enter your password:");
-                            string password = Console.ReadLine();
+                        string username = AccountView.GetUsername();
+                        string password = AccountView.GetPassword();
 
-                            if (ValidateCredentials(username, password))
+                        if (ValidateCredentials(username, password))
                             {
-                                UserAccount.IsAccountHolderLoggedIn = true;
+                                UserAccountService.IsAccountHolderLoggedIn = true;
                                 loggedInUsername = username;
 
-                                Console.WriteLine("Login successful. Welcome, " + username + "!");
+                                AdminView.LoginSuccessful(username);
                                 DisplayAccountHolderOptions();
                                 break;
                             }
                             else
                             {
                                 attempts--;
-                                Console.WriteLine($"Invalid username or password. {attempts} attempts left.");
+                                AdminView.DisplayInvalidCredentials();
                             }
                         }
 
                         if (attempts == 0)
                         {
-                            Console.WriteLine("Login failed. You've reached the maximum number of attempts.");
+                         AdminView.DisplayLoginFailed();
                         }
                     }
                 }
-
-                private static bool ValidateCredentials(string username, string password)
+            private static bool ValidateCredentials(string username, string password)
             {
-                foreach (var account in AccountDetails.accounts)
+                foreach (var account in AccountServices.accounts)
                 {
                     if (account.Username == username && account.Password == password)
                     {
@@ -70,7 +66,7 @@ namespace BankApp.AccountHolder
                 int action;
                 while (!int.TryParse(Console.ReadLine(), out action))
                 {
-                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    AdminView.DisplayInvalidInput();
                 }
                 return action;
             }
@@ -79,23 +75,16 @@ namespace BankApp.AccountHolder
             {
                 while (true)
                 {
-                    Console.WriteLine("Select an action:");
-                    Console.WriteLine("1. Deposit amount");
-                    Console.WriteLine("2. Withdraw amount");
-                    Console.WriteLine("3. Transfer funds");
-                    Console.WriteLine("4. Check Balance");
-                    Console.WriteLine("5. View transaction history");
-                    Console.WriteLine("6. Go back to start");
-                    Console.WriteLine();
+                    AccountView.DisplayUserOperations();
 
                     int action = GetUserChoice();
                     if (action == 6)
                     {
-                        Console.WriteLine("Going back to start...");
-                        UserAccount.IsAccountHolderLoggedIn = false;
+                        AdminView.DisplayBackToStart();
+                        UserAccountService.IsAccountHolderLoggedIn = false;
                         break;
                     }
-                    UserAccount userAccount = new UserAccount();
+                    UserAccountService userAccount = new UserAccountService();
                     userAccount.PerformAccountHolderAction(action);
                 
                 }

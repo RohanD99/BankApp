@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BankApp.Views;
+using System;
 using System.Text.RegularExpressions;
 
 namespace BankApp.SetupNewBank
 {
-    internal class Admin
+    internal class AdminServices
     {
         private static bool isAdminAdded = false;
 
@@ -13,10 +14,7 @@ namespace BankApp.SetupNewBank
             {
                 while (true)
                 {
-                    Console.WriteLine("---------------------");
-                    Console.WriteLine("1. Create Admin");
-                    Console.WriteLine("2. Exit");
-                    Console.Write("Enter your choice: ");
+                    AdminView.DisplayAdminMenu();
 
                     try
                     {
@@ -32,70 +30,60 @@ namespace BankApp.SetupNewBank
                                 }
                                 else
                                 {
-                                    Console.WriteLine("An admin has already been added.");
+                                    AdminView.DisplayAdminAlreadyAdded();
                                     HireStaff();
                                 }
                                 break;
                             case 2:
-                                Console.WriteLine("Exiting...");
+                                AdminView.DisplayExiting();
                                 return;
                             default:
-                                Console.WriteLine("Invalid choice. Please try again.");
+                                AdminView.DisplayInvalidChoice();
                                 break;
                         }
                     }
                     catch (FormatException)
                     {
-                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                        AdminView.DisplayInvalidInput();
                     }
                     catch (OverflowException)
                     {
-                        Console.WriteLine("Invalid input. The number is too large or too small.");
+                        AdminView.DisplayInputOutOfRange();
                     }
                 }
             }
 
             private static void HireAdmin()
             {
-                Console.WriteLine("Enter admin username:");
-                string username = Console.ReadLine();
+                string username = AccountView.GetUsername();
 
                 if (!IsValidInput(username))
                 {
-                    Console.WriteLine("Invalid username. Please enter only alphabets.");
+                    AdminView.DisplayInvalidCredentials();
                     return;
                 }
 
-                Console.WriteLine("Enter admin password:");
-                string password = Console.ReadLine();
-                Console.WriteLine("Admin hired successfully.");
+                string password = AccountView.GetPassword();
+                AdminView.DisplayAdminHiredSuccessfully();
             }
 
             private static void HireStaff()
             {
                 while (true)
                 {
-                    Console.WriteLine("Hiring a staff !!");
-                    Console.WriteLine("Enter staff username:");
-                    string username = Console.ReadLine();
+                    AdminView.DisplayHiringStaff();
+                    string username = AccountView.GetUsername();
 
                     if (!IsValidInput(username))
                     {
-                        Console.WriteLine("Invalid username. Please enter only alphabets.");
+                        AdminView.DisplayInvalidCredentials();
                         continue;
                     }
 
-                    Console.WriteLine("Enter staff password:");
-                    string password = Console.ReadLine();
+                    string password = AccountView.GetPassword();
 
-                    Console.WriteLine("Staff hired successfully.");
+                    AdminView.DisplayStaffHiredSuccessfully();
 
-                    Console.WriteLine("Do you want to add more staff? (Y/N):");
-                    string response = Console.ReadLine();
-                    if (response.ToUpper() != "Y")
-                    {
-                        break;
-                    }
                 }
             }
 

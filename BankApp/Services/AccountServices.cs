@@ -4,42 +4,38 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.Models;
 using BankApp.AccountHolder;
+using BankApp.Views;
 
 namespace BankApp.BankStaff
 {
-    internal class AccountDetails
+    internal class AccountServices
     {
         public static List<Account> accounts = new List<Account>();
         public static void CreateNewAccount()
         {
-            if (BankManager.banks.Count == 0)
+            if (BankManagerService.banks.Count == 0)
             {
-                Console.WriteLine("No banks have been set up yet. Please set up a bank before creating an account.");
+                AccountView.DisplayNoBanksSetUp();
                 return;
             }
-            Console.WriteLine("Enter account holder's username:");
-            string username = Console.ReadLine();
 
-            Console.WriteLine("Enter account holder's password:");
-            string password = Console.ReadLine();
+            string username = AccountView.GetUsername();
+            string password = AccountView.GetPassword();
 
             string accountNumber = GenerateAccountNumber();
 
-            Console.WriteLine("Enter account type (1 for Savings, 2 for Salary):");
-            int accountTypeChoice = Convert.ToInt32(Console.ReadLine());
+            int accountTypeChoice = AccountView.GetAccountTypeChoiceFromUser();
 
             AccountType accountType = (AccountType)accountTypeChoice;
 
-            Console.WriteLine("Select a bank from the list:");
-            BankManager.DisplayBanks();
+            BankManagerService.DisplayBanks();                      //selecting bank from list
 
-            Console.WriteLine("Enter the bank ID:");
-            string bankId = Console.ReadLine();
+            string bankId = AccountView.GetBankIdFromUser();
 
-            Bank selectedBank = BankManager.GetBankById(bankId);
+            BankService selectedBank = BankManagerService.GetBankById(bankId);
             if (selectedBank == null)
             {
-                Console.WriteLine("Bank not found.");
+                AccountView.DisplayBankNotFound();
                 return;
             }
 
@@ -57,8 +53,7 @@ namespace BankApp.BankStaff
 
             accounts.Add(newAccount);
 
-            Console.WriteLine("Account created successfully.");
-            Console.WriteLine("Account Number: " + accountNumber);
+            AccountView.DisplayAccountCreatedSuccessfully(accountNumber);
         }
         public static Account GetAccountByUsername(string username)
         {
@@ -67,83 +62,62 @@ namespace BankApp.BankStaff
 
         public static void UpdateAccount()
         {
-            Console.WriteLine("Enter the account number:");
-            string accountNumber = Console.ReadLine();
+            string accountNumber = AccountView.GetAccountNumber();
 
             Account account = GetAccountByNumber(accountNumber);
 
             if (account != null)
             {
-                Console.WriteLine("Enter new username:");
-                string newUsername = Console.ReadLine();
+                string newUsername = AccountView.GetUpdatedUsername();
+                string newPassword = AccountView.GetUpdatedPassword();
 
-                Console.WriteLine("Enter new password:");
-                string newPassword = Console.ReadLine();
-
-                Console.WriteLine("Change type of account (1 for Savings, 2 for Salary):");
-                int accountTypeChoice = Convert.ToInt32(Console.ReadLine());
+                int accountTypeChoice = AccountView.GetAccountTypeChoiceFromUser();
 
                 AccountType accountType = (AccountType)accountTypeChoice;
                 account.Type = accountType;
 
                 account.Username = newUsername;
                 account.Password = newPassword;
-
-                Console.WriteLine("Account updated successfully.");
+                AccountView.DisplayAccountUpdatedSuccessfully();
             }
             else
             {
-                Console.WriteLine("Account not found.");
+                AccountView.DisplayAccountNotFound();
             }
         }
 
         public static void DeleteAccount()
         {
-            Console.WriteLine("Enter the account number:");
-            string accountNumber = Console.ReadLine();
-
+            string accountNumber = AccountView.GetAccountNumber();
             Account account = GetAccountByNumber(accountNumber);
 
             if (account != null)
             {
                 accounts.Remove(account);
-                Console.WriteLine("Account deleted successfully.");
+                AccountView.DisplayAccountDeletedSuccessfully();
             }
             else
             {
-                Console.WriteLine("Account not found.");
+                AccountView.DisplayAccountNotFound();
             }
         }
 
         public static void ShowAllAccounts()
         {
-            UserAccount userAccount = new UserAccount();
+            UserAccountService userAccount = new UserAccountService();
             if (accounts.Count > 0)
             {
-                Console.WriteLine("List of User Accounts:");
                 foreach (Account account in accounts)
                 {
                     if (!IsBankStaffAccount(account))
                     {
-                        Console.WriteLine("Account Number: " + account.AccountNumber);
-                        Console.WriteLine("Username: " + account.Username);
-                        Console.WriteLine("Password: " + account.Password);
-                        Console.WriteLine("Account Type: " + account.Type);
-                        if (account.Bank != null)
-                        {
-                            Console.WriteLine("Bank name: " + account.Bank.bankName);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Bank name: N/A");
-                        }
-                        Console.WriteLine("-------------------------------------------");
+                        AccountView.DisplayAllAccounts(account);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("No accounts found.");
+                AccountView.DisplayAccountNotFound();
             }
         }
     
@@ -154,7 +128,6 @@ namespace BankApp.BankStaff
 
             if (account != null)
             {
-                Console.WriteLine("Transaction History for Account Number: " + account.AccountNumber);
                 foreach (string transaction in account.TransactionHistory)
                 {
                     Console.WriteLine(transaction);
@@ -162,7 +135,7 @@ namespace BankApp.BankStaff
             }
             else
             {
-                Console.WriteLine("Account not found.");
+                AccountView.DisplayAccountNotFound();
             }
         }
 
@@ -188,7 +161,6 @@ namespace BankApp.BankStaff
                 TransactionHistory = new List<string>(),
                 Bank = null
             };
-
             accounts.Add(newAccount);
         }
 

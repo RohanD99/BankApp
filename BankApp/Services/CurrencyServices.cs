@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BankApp.Views;
+using System;
 using System.Collections.Generic;
 
 namespace BankApp.BankStaff
 {
-    internal class CurrencyType
+    internal class CurrencyServices
     {
         private static Dictionary<string, decimal> acceptedCurrencies = new Dictionary<string, decimal>()
         {
@@ -14,22 +15,16 @@ namespace BankApp.BankStaff
 
         public static void AddAcceptedCurrency()
         {
-            Console.WriteLine("Enter the currency code:");
+            BankView.DisplayCurrencyCode();
             string currencyCode = Console.ReadLine().ToUpper();
 
-            Console.WriteLine("Enter the exchange rate:");
+            BankView.DisplayExchangeRate();
             decimal exchangeRate = decimal.Parse(Console.ReadLine());
+        
+            acceptedCurrencies.Add(currencyCode, exchangeRate);
+            BankView.DisplayCurrencyAdded();
 
-            if (acceptedCurrencies.ContainsKey(currencyCode))
-            {
-                Console.WriteLine("Currency already exists. Updating exchange rate...");
-                acceptedCurrencies[currencyCode] = exchangeRate;
-            }
-            else
-            {
-                acceptedCurrencies.Add(currencyCode, exchangeRate);
-                Console.WriteLine("Currency added successfully.");
-            }
+
         }
 
         public static Dictionary<string, decimal> GetAcceptedCurrencies()

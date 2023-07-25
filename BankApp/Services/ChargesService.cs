@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BankApp.Views;
+using System;
 
 namespace BankApp.BankStaff
 {
-    internal class ServiceCharge
+    internal class ChargesService
     {
         private static decimal rtgsChargeSameBank = 0.0m;
         private static decimal impsChargeSameBank = 0.05m;
@@ -11,24 +12,24 @@ namespace BankApp.BankStaff
 
         public static void SetServiceChargeSameBank()
         {
-            Console.WriteLine("Enter the service charge for RTGS (in percentage) for same bank:");
+            BankView.DisplayRTGSChargeUpdateSameBank();
             rtgsChargeSameBank = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter the service charge for IMPS (in percentage) for same bank:");
+            BankView.DisplayIMPSChargeUpdateSameBank();
             impsChargeSameBank = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("Service charges updated successfully for same bank.");
+            BankView.DisplayChargesUpdated();
         }
 
         public static void SetServiceChargeOtherBank()
         {
-            Console.WriteLine("Enter the service charge for RTGS (in percentage) for other bank:");
+            BankView.DisplayRTGSChargeUpdateOtherBank();
             rtgsChargeOtherBank = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter the service charge for IMPS (in percentage) for other bank:");
+            BankView.DisplayIMPSChargeUpdateOtherBank();
             impsChargeOtherBank = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("Service charges updated successfully for other bank.");
+            BankView.DisplayChargesUpdated();
         }
 
         public static decimal GetRtgsChargeSameBank()
