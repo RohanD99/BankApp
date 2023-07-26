@@ -33,7 +33,7 @@ namespace BankApp.SetupNewBank
         {
             foreach (BankService bank in banks)
             {
-                if (bank.bankName == bankName)
+                if (bank.BankName == bankName)
                 {
                     return bank;
                 }
@@ -45,7 +45,7 @@ namespace BankApp.SetupNewBank
         {
             foreach (BankService bank in banks)
             {
-                if (bank.bankId == bankId)
+                if (bank.BankId == bankId)
                 {
                     return bank;
                 }

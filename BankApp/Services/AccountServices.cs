@@ -60,7 +60,7 @@ namespace BankApp.BankStaff
             return accounts.FirstOrDefault(a => a.Username == username);
         }
 
-        public static void UpdateAccount()
+        public void UpdateAccount()
         {
             string accountNumber = AccountView.GetAccountNumber();
 
@@ -86,7 +86,7 @@ namespace BankApp.BankStaff
             }
         }
 
-        public static void DeleteAccount()
+        public void DeleteAccount()
         {
             string accountNumber = AccountView.GetAccountNumber();
             Account account = GetAccountByNumber(accountNumber);
@@ -102,7 +102,7 @@ namespace BankApp.BankStaff
             }
         }
 
-        public static void ShowAllAccounts()
+        public void ShowAllAccounts()
         {
             UserAccountService userAccount = new UserAccountService();
             if (accounts.Count > 0)
@@ -122,7 +122,7 @@ namespace BankApp.BankStaff
         }
     
 
-        public static void ViewAccountTransactionHistory(string accountNumber)
+        public void ViewAccountTransactionHistory(string accountNumber)
         {
             Account account = GetAccountByNumber(accountNumber);
 
@@ -150,7 +150,7 @@ namespace BankApp.BankStaff
             return accounts.FirstOrDefault(a => a.AccountNumber == accountNumber);
         }
 
-        public static void AddStaffAccount(string username, string password)
+        public void AddStaffAccount(string username, string password)
         {
             Account newAccount = new Account
             {

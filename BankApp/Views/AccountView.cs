@@ -92,7 +92,7 @@ namespace BankApp.Views
             Console.WriteLine("Account Type: " + account.Type);
             if (account.Bank != null)
             {
-                Console.WriteLine("Bank name: " + account.Bank.bankName);
+                Console.WriteLine("Bank name: " + account.Bank.BankName);
             }
             else
             {

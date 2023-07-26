@@ -15,10 +15,10 @@ namespace BankApp.BankStaff
 
         public static void AddAcceptedCurrency()
         {
-            BankView.DisplayCurrencyCode();
+            BankView.DisplayCurrencyCode();                         //1
             string currencyCode = Console.ReadLine().ToUpper();
 
-            BankView.DisplayExchangeRate();
+            BankView.DisplayExchangeRate();                           //2
             decimal exchangeRate = decimal.Parse(Console.ReadLine());
         
             acceptedCurrencies.Add(currencyCode, exchangeRate);

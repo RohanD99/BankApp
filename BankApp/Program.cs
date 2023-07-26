@@ -2,36 +2,37 @@
 using System;
 using static BankApp.AccountHolder.UserLoginService;
 using static BankApp.BankStaff.StaffService;
+using static BankApp.Constants;
 using static BankApp.SetupNewBank.AdminServices;
 using static BankApp.SetupNewBank.BankService;
 
 namespace BankApp
 {
     internal class Program
-    { 
+    {
         public static void Main()
         {
-            int option;
+            MainMenuOption option;
             do
             {
-                Console.WriteLine("_______///Welcome to Bank Management System\\\\\\________\nSelect an option:\n1. Setup new Bank\n2. Login as Account Holder\n3. Login as Bank Staff\n4. Exit\n");
+                Console.WriteLine("\nSelect an option:\n1. Setup new Bank\n2. Login as Account Holder\n3. Login as Bank Staff\n4. Exit\n");
 
                 string input = Console.ReadLine();
-                if (int.TryParse(input, out option))
+                if (Enum.TryParse(input, out option))
                 {
                     switch (option)
                     {
-                        case 1:
+                        case MainMenuOption.SetupNewBank:
                             BankSetup.SetupNewBank(new BankService());
                             AdminVerification.AdminMenu();
                             break;
-                        case 2:
+                        case MainMenuOption.LoginAsAccountHolder:
                             LoginAsAccountHolder.AccountHolder();
                             break;
-                        case 3:
+                        case MainMenuOption.LoginAsBankStaff:
                             LoginAsBankStaff.BankStaff();
                             break;
-                        case 4:
+                        case MainMenuOption.Exit:
                             Console.WriteLine("Thank you for Visiting...");
                             break;
                         default:
@@ -43,8 +44,9 @@ namespace BankApp
                 {
                     Console.WriteLine("Invalid input. Please enter a valid numeric option.");
                 }
+
                 Console.WriteLine();
-            } while (option != 4);
+            } while (option != MainMenuOption.Exit);
         }
     }
 }

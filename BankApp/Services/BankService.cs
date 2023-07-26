@@ -6,48 +6,46 @@ namespace BankApp.SetupNewBank
 {
     internal class BankService
     {
-        public string bankId;
-        public string bankName;
-        public string branchCode;
-        public string branchName;
-        public string ifscCode;
-        public int impsCharge;
-        public int rtgsCharge;
-        public int rtgsChargeOtherBank;
-        public int impsChargeOtherBank;
-        public int currencyType;
+        public string BankId;
+        public string BankName;
+        public string BranchCode;
+        public string BranchName;
+        public string IfscCode;
+        public int ImpsCharge;
+        public int RtgsCharge;
+        public int RtgsChargeOtherBank;
+        public int ImpsChargeOtherBank;
+        public int CurrencyType;
 
         public class BankSetup
         {
             public static void SetupNewBank(BankService newBank)
             {
+                newBank.BankName = BankView.GetBankName();       //1
 
-                newBank.bankName = BankView.GetBankName();
-
-                if (!IsValidInput(newBank.bankName))
+                if (!IsValidInput(newBank.BankName))
                 {
-                    AdminView.DisplayInvalidCredentials();
+                    AdminView.DisplayInvalidCredentials();        //2
                     return;
                 }
 
-                BankView.GetBranchName();
-                newBank.branchName = Console.ReadLine();
+                newBank.BranchName = BankView.GetBranchName();      //3
 
-                if (!IsValidInput(newBank.branchName))
+                if (!IsValidInput(newBank.BranchName))
                 {
-                    AdminView.DisplayInvalidCredentials();
+                    AdminView.DisplayInvalidCredentials();              //4
                     return;
                 }
 
-                newBank.bankId = GenerateBankId(newBank.bankName.ToUpper());
-                newBank.branchCode = GenerateBranchCode(newBank.branchName);
-                newBank.ifscCode = GenerateIfscCode(newBank.branchName);
+                newBank.BankId = GenerateBankId(newBank.BankName.ToUpper());
+                newBank.BranchCode = GenerateBranchCode(newBank.BranchName);
+                newBank.IfscCode = GenerateIfscCode(newBank.BranchName);
 
                 newBank.CalculateCharges();
 
-                BankManagerService.AddBank(newBank);
-
-            }
+                BankManagerService.AddBank(newBank);               
+                 BankView.DisplayBankSetupCompleted(newBank);             //5
+            } 
         }
         private static string GenerateBankId(string bankName)
         {
@@ -55,7 +53,7 @@ namespace BankApp.SetupNewBank
             {
                 if (!Regex.IsMatch(bankName, "^[a-zA-Z]+$"))
                 {
-                    AdminView.DisplayInvalidCredentials();
+                    AdminView.DisplayInvalidCredentials();                   //6
                 }
 
                 string currentDate = DateTime.Now.ToString("yyyyMMdd");
@@ -63,7 +61,7 @@ namespace BankApp.SetupNewBank
             }
             catch (ArgumentOutOfRangeException)
             {
-                AdminView.DisplayInputOutOfRange();
+                AdminView.DisplayInputOutOfRange();                            //7
                 return null;
             }
             catch (ArgumentException ex)
@@ -88,6 +86,7 @@ namespace BankApp.SetupNewBank
             {
                 AdminView.DisplayInputOutOfRange();
                 return null;
+
             }
             catch (ArgumentException ex)
             {
@@ -123,22 +122,21 @@ namespace BankApp.SetupNewBank
             return Regex.IsMatch(input, "^[a-zA-Z]+$");
         }
 
-
         public void CalculateCharges()
         {
-            if (currencyType == 1) 
+            if (CurrencyType == 1) 
             {
-                impsCharge = 5;
-                rtgsCharge = 0;
-                impsChargeOtherBank = 0;
-                rtgsChargeOtherBank = 0;
+                ImpsCharge = 5;
+                RtgsCharge = 0;
+                ImpsChargeOtherBank = 0;
+                RtgsChargeOtherBank = 0;
             }
             else 
             {
-                impsCharge = 6;
-                rtgsCharge = 0;
-                impsChargeOtherBank = 6;
-                rtgsChargeOtherBank = 2;
+                ImpsCharge = 6;
+                RtgsCharge = 0;
+                ImpsChargeOtherBank = 6;
+                RtgsChargeOtherBank = 2;
             }
         }
     }

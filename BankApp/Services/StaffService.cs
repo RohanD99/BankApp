@@ -16,11 +16,11 @@ namespace BankApp.BankStaff
                 }
                 else
                 {
-                    BankView.DisplayAsBankStaff();
+                    BankView.DisplayAsBankStaff();                        //1
                     int attempts = 3;
                     while (attempts > 0)
                     {
-                        string username = AccountView.GetUsername();
+                        string username = AccountView.GetUsername();         //2
                         string password = AccountView.GetPassword();
 
                        isBankStaffLoggedIn = true;
@@ -40,7 +40,7 @@ namespace BankApp.BankStaff
             {
                 while (true)
                 {
-                    BankView.DisplayStaffOperations();
+                    BankView.DisplayStaffOperations();                   //3
                     int action = GetUserChoice();
                     if (action == 9)
                     {
@@ -69,6 +69,7 @@ namespace BankApp.BankStaff
 
             public static void PerformBankStaffAction(int action)
             {
+                AccountServices accountServices =   new AccountServices();
                 switch (action)
                 {
                     case 1:
@@ -77,15 +78,15 @@ namespace BankApp.BankStaff
                         break;
                     case 2:
                         AccountView.UpdateAccount();
-                        AccountServices.UpdateAccount();
+                        accountServices.UpdateAccount();
                         break;
                     case 3:
-                        AccountView.DeleteAccount();    
-                        AccountServices.DeleteAccount();
+                        AccountView.DeleteAccount();
+                        accountServices.DeleteAccount();
                         break;
                     case 4:
                         AccountView.ShowAllAccounts();
-                        AccountServices.ShowAllAccounts();
+                        accountServices.ShowAllAccounts();
                         break;
                     case 5:
                         BankView.DisplayAcceptedCurrency();
@@ -103,7 +104,7 @@ namespace BankApp.BankStaff
                         BankView.ViewTransactionHistory();
                         AccountView.GetAccountNumberByUser();
                         string accountNumber = Console.ReadLine();
-                        AccountServices.ViewAccountTransactionHistory(accountNumber);
+                        accountServices.ViewAccountTransactionHistory(accountNumber);
                         break;
                     case 9:
                         AdminView.DisplayBackToStart();

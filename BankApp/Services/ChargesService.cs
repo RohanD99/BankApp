@@ -12,13 +12,13 @@ namespace BankApp.BankStaff
 
         public static void SetServiceChargeSameBank()
         {
-            BankView.DisplayRTGSChargeUpdateSameBank();
+            BankView.DisplayRTGSChargeUpdateSameBank();                         //1
             rtgsChargeSameBank = decimal.Parse(Console.ReadLine());
 
-            BankView.DisplayIMPSChargeUpdateSameBank();
+            BankView.DisplayIMPSChargeUpdateSameBank();                           //2
             impsChargeSameBank = decimal.Parse(Console.ReadLine());
 
-            BankView.DisplayChargesUpdated();
+            BankView.DisplayChargesUpdated();                                    //3
         }
 
         public static void SetServiceChargeOtherBank()

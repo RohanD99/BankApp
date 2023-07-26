@@ -1,9 +1,5 @@
 ﻿using BankApp.SetupNewBank;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankApp.Views
 {
@@ -12,13 +8,13 @@ namespace BankApp.Views
         public static void DisplayBankDetails(BankService bank)
         {
             Console.WriteLine("-------------------------------------------");
-            Console.WriteLine("Bank Name: " + bank.bankName);
-            Console.WriteLine("Bank ID: " + bank.bankId);
-            Console.WriteLine("Branch Name: " + bank.branchName);
-            Console.WriteLine("Branch IFSC Code: " + bank.ifscCode);
-            Console.WriteLine("IMPS Charge: " + (bank.currencyType == 1 ? bank.impsCharge : bank.impsChargeOtherBank) + "%");
-            Console.WriteLine("RTGS Charge: " + (bank.currencyType == 1 ? bank.rtgsCharge : bank.rtgsChargeOtherBank) + "%");
-            Console.WriteLine("Currency Type: " + bank.currencyType);
+            Console.WriteLine("Bank Name: " + bank.BankName);
+            Console.WriteLine("Bank ID: " + bank.BankId);
+            Console.WriteLine("Branch Name: " + bank.BranchName);
+            Console.WriteLine("Branch IFSC Code: " + bank.IfscCode);
+            Console.WriteLine("IMPS Charge: " + (bank.CurrencyType == 1 ? bank.ImpsCharge : bank.ImpsChargeOtherBank) + "%");
+            Console.WriteLine("RTGS Charge: " + (bank.CurrencyType == 1 ? bank.RtgsCharge : bank.RtgsChargeOtherBank) + "%");
+            Console.WriteLine("Currency Type: " + bank.CurrencyType);
             Console.WriteLine("-------------------------------------------");
         }
 
@@ -31,13 +27,13 @@ namespace BankApp.Views
         {
             Console.WriteLine("-------------------------------------------");
             Console.WriteLine("Bank setup completed:");
-            Console.WriteLine("Bank Name: " + newBank.bankName);
-            Console.WriteLine("Bank ID: " + newBank.bankId);
-            Console.WriteLine("Branch Name: " + newBank.branchName);
-            Console.WriteLine("Branch IFSC Code: " + newBank.ifscCode);
-            Console.WriteLine("IMPS Charge: " + (newBank.currencyType == 1 ? newBank.impsCharge : newBank.impsChargeOtherBank) + "%");
-            Console.WriteLine("RTGS Charge: " + (newBank.currencyType == 1 ? newBank.rtgsCharge : newBank.rtgsChargeOtherBank) + "%");
-            Console.WriteLine("Currency Type: " + newBank.currencyType);
+            Console.WriteLine("Bank Name: " + newBank.BankName);
+            Console.WriteLine("Bank ID: " + newBank.BankId);
+            Console.WriteLine("Branch Name: " + newBank.BranchName);
+            Console.WriteLine("Branch IFSC Code: " + newBank.IfscCode);
+            Console.WriteLine("IMPS Charge: " + (newBank.CurrencyType == 1 ? newBank.ImpsCharge : newBank.ImpsChargeOtherBank) + "%");
+            Console.WriteLine("RTGS Charge: " + (newBank.CurrencyType == 1 ? newBank.RtgsCharge : newBank.RtgsChargeOtherBank) + "%");
+            Console.WriteLine("Currency Type: " + newBank.CurrencyType);
             Console.WriteLine("Bank added successfully");
             Console.WriteLine("-------------------------------------------");
         }

@@ -1,10 +1,9 @@
 ﻿using BankApp.SetupNewBank;
 using System.Collections.Generic;
-using static BankApp.BankStaff.AccountServices;
 
 namespace BankApp.Models
 {
-    internal class Account : BankService
+    internal class Account 
     {
         public string Username { get; set; }
         public string Password { get; set; }
