@@ -43,10 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DataStorage.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Utility.cs" />
-    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AccountHolder.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Response.cs" />
@@ -54,11 +55,11 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountHolderService.cs" />
     <Compile Include="Services\BankService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Views\AccountHolderView.cs" />
     <Compile Include="Views\BankView.cs" />
-    <Compile Include="Views\EmployeeView.cs" />
     <Compile Include="Views\UserView.cs" />
   </ItemGroup>
   <ItemGroup>
